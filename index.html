@@ -1,13 +1,93 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 
 <head>
-    <title>aminake</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Amınake - Efsane Buton Deneyimi">
+    <title>amınake</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <h1>Az Kaldı Gökhan Az</h1>
-    <p>Created by Alpoflex</p>
+    <!-- Intro Overlay -->
+    <div id="intro-overlay">
+        <div id="intro-text">
+            <span class="intro-line" id="line1">Bir şey olacak...</span>
+            <span class="intro-line" id="line2">Hazır mısın?</span>
+            <span class="intro-line" id="line3">3</span>
+            <span class="intro-line" id="line4">2</span>
+            <span class="intro-line" id="line5">1</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content" class="hidden">
+        <!-- Animated Background -->
+        <div id="bg-grid"></div>
+
+        <!-- Particle Canvas -->
+        <canvas id="particle-canvas"></canvas>
+
+        <!-- Header -->
+        <header id="site-header">
+            <h1 id="site-title">AMINAKE</h1>
+            <p id="site-subtitle">ADAM ÖLDÜ MÜGE HANIM</p>
+        </header>
+
+        <!-- The Button -->
+        <div id="button-container">
+            <div id="button-glow"></div>
+            <button id="aminake-btn">
+                <span id="btn-text">BAS</span>
+                <span id="btn-subtext">amınake</span>
+            </button>
+        </div>
+
+        <!-- Hint & Timer -->
+        <div id="hint-text">⚡ Art arda bas, sesi duyunca anlarsın 😏</div>
+        <div id="pitch-timer" class="hidden">Sıfırlanıyor: <span id="pitch-time">3</span>s</div>
+
+        <!-- Counter -->
+        <div id="counter-container">
+            <div id="counter-label">Bu butona toplam</div>
+            <div id="counter-value">0</div>
+            <div id="counter-suffix">kez basıldı</div>
+        </div>
+
+        <!-- Footer -->
+        <footer id="site-footer">
+            <p>Created by <span class="neon-text">Alpoflex</span> &amp; <span class="vada-text">YAKO BABA</span> 🔥</p>
+        </footer>
+
+        <!-- Instagram Links -->
+        <div id="social-links">
+            <a href="https://instagram.com/alpoflex" target="_blank" class="social-btn" title="Alpoflex Instagram">
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+                <span>Alpoflex</span>
+            </a>
+            <a href="https://instagram.com/yyakupakturk" target="_blank" class="social-btn" title="Yako Baba Instagram">
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+                <span>Yako Baba</span>
+            </a>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 
 </html>
