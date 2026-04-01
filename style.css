@@ -706,14 +706,17 @@ body.shake {
 }
 
 #leaderboard-list li {
+    flex-shrink: 0; /* Ensures items do not squish under parent height constraints */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.9rem;
-    padding: 0.6rem 0.8rem;
-    background: rgba(255,255,255,0.03);
-    border-radius: 6px;
-    border-left: 3px solid transparent;
+    font-size: 0.95rem;
+    padding: 0.8rem 1rem;
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    border-left: 4px solid transparent;
+    margin-bottom: 0.4rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
 }
 
 #leaderboard-list li.loading {
@@ -755,12 +758,23 @@ body.shake {
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 480px) {
+    #main-content {
+        padding: 1rem 0.5rem;
+    }
+
+    #site-header { order: 1; margin-bottom: 1rem; }
+    #button-container { order: 2; margin-bottom: 1rem; }
+    #hint-text { order: 3; }
+    #pitch-timer { order: 4; }
+    #counter-container { order: 5; margin-bottom: 2rem; }
+    
     #top-panels-container {
+        order: 6; /* Place panels below counter on mobile */
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 1.5rem;
-        margin-top: 1rem;
+        margin-top: 2rem;
         margin-bottom: 2rem;
         pointer-events: auto;
     }
