@@ -109,13 +109,31 @@ function animateParticles() {
 }
 animateParticles();
 
-// ===== SOUND + PITCH SYSTEM =====
-const baseAudio = new Audio('aminake.mp3');
-baseAudio.preload = 'auto'; // Vercel vb. sunucularda arkaplanda yüklemeye başla
+// ===== SOUND + PITCH SYSTEM (WEB AUDIO API - ZERO LATENCY) =====
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+let audioCtx;
+let audioBuffer = null;
 
-let currentPitch = 1.0;       // Başlangıç pitch (normal hız)
-const PITCH_INCREMENT = 0.15; // Her tıklamada ne kadar incelsin
-const MAX_PITCH = 3.5;        // Maksimum incelik (çok komik chipmunk sesi)
+// AudioContext oluştur ve dosyayı belleğe yükle
+function initAudio() {
+    if (!audioCtx) {
+        audioCtx = new AudioContext();
+    }
+    fetch('aminake.mp3')
+        .then(response => response.arrayBuffer())
+        .then(data => audioCtx.decodeAudioData(data))
+        .then(buffer => {
+            audioBuffer = buffer;
+            console.log('✅ aminake.mp3 belleğe yüklendi (0 Gecikme)');
+        })
+        .catch(err => console.log('⚠️ Ses yüklenemedi:', err));
+}
+// Sayfa açıldığında çekmeye başla
+initAudio();
+
+let currentPitch = 1.0;
+const PITCH_INCREMENT = 0.15;
+const MAX_PITCH = 3.5;
 
 let countdownInterval = null;
 let remainingResetTime = 0;
@@ -134,10 +152,14 @@ function resetPitch() {
 }
 
 function playSound() {
-    // Pitch'i artır (her basışta ses incelsin)
+    // İlk tıklamada AudioContext başlatılıyorsa resume et (Tarayıcı politikaları)
+    if (!audioCtx) initAudio();
+    if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+    }
+
     currentPitch = Math.min(currentPitch + PITCH_INCREMENT, MAX_PITCH);
 
-    // 3 saniyelik sayaç mantığını başlat
     if (countdownInterval) clearInterval(countdownInterval);
     
     if (currentPitch > 1.05) { 
@@ -156,30 +178,26 @@ function playSound() {
         }, 1000);
     }
 
-    // MP3 dosyasını çal. (Vercel vb. ağ üzerinden yüklerken canplaythrough geç tetiklenebileceği için beklemiyoruz)
-    const clone = baseAudio.cloneNode();
-    clone.preservesPitch = false;          // Pitch değişsin!
-    clone.mozPreservesPitch = false;         // Firefox
-    clone.webkitPreservesPitch = false;      // Eski Safari
-    clone.playbackRate = currentPitch;
-    clone.play().catch((err) => {
-        console.log('Audio çalınamadı, fallback kullanılıyor:', err);
+    // Gecikmesiz çalma!
+    if (audioBuffer && audioCtx) {
+        const source = audioCtx.createBufferSource();
+        source.buffer = audioBuffer;
+        source.playbackRate.value = currentPitch;
+        source.connect(audioCtx.destination);
+        source.start(0);
+    } else {
         playSynthFallback();
-    });
-
-    // Bitince hafızadan temizle
-    clone.addEventListener('ended', () => clone.remove());
+    }
 }
 
 // Fallback sentez ses (mp3 yoksa)
-let audioContext;
 function playSynthFallback() {
-    if (!audioContext) {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    if (!audioCtx) initAudio();
+    if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
     }
-    if (audioContext.state === 'suspended') audioContext.resume();
 
-    const now = audioContext.currentTime;
+    const now = audioCtx.currentTime;
     const p = currentPitch;
 
     const osc = audioContext.createOscillator();
