@@ -1,6 +1,6 @@
 // ===== FIREBASE & SCOREBOARD =====
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
-import { getDatabase, ref, onValue, update, increment, query, orderByChild, limitToLast } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
+import { getDatabase, ref, get, child, onValue, update, increment, query, orderByChild, limitToLast } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyA9J0vBh5JJ_1FFKFOhZTQ4h5PaL0UwMx0",
@@ -179,12 +179,12 @@ function playSound() {
     currentPitch = Math.min(currentPitch + PITCH_INCREMENT, MAX_PITCH);
 
     if (countdownInterval) clearInterval(countdownInterval);
-    
-    if (currentPitch > 1.05) { 
+
+    if (currentPitch > 1.05) {
         pitchTimerEl.classList.remove('hidden');
         remainingResetTime = 3;
         pitchTimeSpan.textContent = remainingResetTime;
-        
+
         countdownInterval = setInterval(() => {
             remainingResetTime--;
             if (remainingResetTime > 0) {
@@ -248,12 +248,35 @@ if (currentUser) {
     showLoggedIn(currentUser);
 }
 
-joinBtn.addEventListener('click', () => {
+joinBtn.addEventListener('click', async () => {
     const val = usernameInput.value.trim();
-    if (val.length > 0) {
-        currentUser = val;
-        localStorage.setItem('aminake-username', currentUser);
-        showLoggedIn(currentUser);
+    if (val.length === 0) return;
+    
+    // Disable input while checking
+    usernameInput.disabled = true;
+    joinBtn.disabled = true;
+    joinBtn.textContent = 'Kontrol ediliyor...';
+
+    try {
+        const userRef = child(ref(db), `users/${val}`);
+        const snapshot = await get(userRef);
+        
+        if (snapshot.exists()) {
+            // Eğer veritabanında varsa o isim kullanımdadır.
+            alert(`"${val}" ismi başka bir efsane tarafından alınmış! Lütfen farklı bir isim dene.`);
+        } else {
+            // Kimse almamışsa, başarıyla oturum aç
+            currentUser = val;
+            localStorage.setItem('aminake-username', currentUser);
+            showLoggedIn(currentUser);
+        }
+    } catch (err) {
+        console.error(err);
+        alert('Sunucu hatası. Sonra tekrar dene.');
+    } finally {
+        usernameInput.disabled = false;
+        joinBtn.disabled = false;
+        joinBtn.textContent = 'Sıralamaya Katıl';
     }
 });
 
@@ -278,7 +301,7 @@ onValue(ref(db, 'global/count'), (snapshot) => {
 });
 
 // 2. Dinleyici: Canlı Skorboard (En çok basan 10 kişi)
-const topUsersQuery = query(ref(db, 'users'), orderByChild('score'), limitToLast(10));
+const topUsersQuery = query(ref(db, 'users'), orderByChild('score'), limitToLast(5));
 onValue(topUsersQuery, (snapshot) => {
     const users = [];
     snapshot.forEach((childSnap) => {
@@ -287,16 +310,16 @@ onValue(topUsersQuery, (snapshot) => {
             score: childSnap.val().score
         });
     });
-    
+
     // Puanları büyükten küçüğe sıralamak için ters çevir (limitToLast artan verir)
     users.reverse();
-    
+
     leaderboardList.innerHTML = '';
     if (users.length === 0) {
         leaderboardList.innerHTML = '<li style="justify-content: center; color: #888;">Liste boş!</li>';
         return;
     }
-    
+
     users.forEach(u => {
         const li = document.createElement('li');
         li.innerHTML = `<span class="lb-name">${u.name}</span><span class="lb-score">${u.score.toLocaleString('tr-TR')}</span>`;
@@ -310,14 +333,14 @@ setInterval(() => {
     if (pendingSyncClicks > 0) {
         const clicksToSend = pendingSyncClicks;
         pendingSyncClicks = 0;
-        
+
         const updates = {};
         updates['global/count'] = increment(clicksToSend);
-        
+
         if (currentUser) {
             updates[`users/${currentUser}/score`] = increment(clicksToSend);
         }
-        
+
         update(ref(db), updates).catch(err => {
             console.error("Firebase sync hatası", err);
             pendingSyncClicks += clicksToSend; // Hata olursa geri al

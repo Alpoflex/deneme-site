@@ -596,6 +596,15 @@ body.shake {
 }
 
 /* ===== LEADERBOARD & AUTH ===== */
+#top-panels-container {
+    width: 100%;
+    pointer-events: none;
+}
+
+#auth-panel, #leaderboard-panel {
+    pointer-events: auto;
+}
+
 #auth-panel {
     position: fixed;
     top: 1rem;
@@ -683,7 +692,7 @@ body.shake {
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
+    gap: 0.8rem; /* Increased spacing to prevent overlap */
     max-height: 250px;
     overflow-y: auto;
 }
@@ -700,8 +709,8 @@ body.shake {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.85rem;
-    padding: 0.4rem;
+    font-size: 0.9rem;
+    padding: 0.6rem 0.8rem;
     background: rgba(255,255,255,0.03);
     border-radius: 6px;
     border-left: 3px solid transparent;
@@ -746,25 +755,32 @@ body.shake {
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 480px) {
-    #auth-panel {
-        top: 0.5rem;
-        right: 0.5rem;
-        left: 0.5rem;
+    #top-panels-container {
         display: flex;
-        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+        pointer-events: auto;
+    }
+
+    #auth-panel, #leaderboard-panel {
+        position: static;
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
     
     #leaderboard-panel {
-        top: 4.5rem;
-        right: 0.5rem;
-        left: 0.5rem;
-        width: auto;
-        padding: 1rem;
-        max-height: 200px;
+        padding: 1.2rem;
+        max-height: fit-content;
     }
     
     #leaderboard-list {
-        max-height: 120px;
+        max-height: 200px;
+        width: 100%;
     }
     #aminake-btn {
         width: 150px;

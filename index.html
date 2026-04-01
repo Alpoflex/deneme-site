@@ -39,6 +39,27 @@
             <p id="site-subtitle">ADAM ÖLDÜ MÜGE HANIM</p>
         </header>
 
+        <!-- Container for Auth & Scoreboard so they can be positioned side-by-side or stacked -->
+        <div id="top-panels-container">
+            <!-- Auth & Scoreboard -->
+            <div id="auth-panel">
+                <div id="auth-container">
+                    <input type="text" id="username-input" placeholder="Kısaltma/Ad (Örn: Yako)" maxlength="12" />
+                    <button id="join-btn">Sıralamaya Katıl</button>
+                </div>
+                <div id="logged-in-container" class="hidden">
+                    Hoş geldin, <span id="current-username" class="vada-text"></span>! 🔥
+                </div>
+            </div>
+
+            <div id="leaderboard-panel">
+                <h3>🏆 GÜNÜN REKORLARI</h3>
+                <ul id="leaderboard-list">
+                    <li class="loading">Sıralama yükleniyor...</li>
+                </ul>
+            </div>
+        </div>
+
         <!-- The Button -->
         <div id="button-container">
             <div id="button-glow"></div>
@@ -63,24 +84,6 @@
         <footer id="site-footer">
             <p>Created by <span class="neon-text">Alpoflex</span> &amp; <span class="vada-text">YAKO BABA</span> 🔥</p>
         </footer>
-
-        <!-- Auth & Scoreboard -->
-        <div id="auth-panel">
-            <div id="auth-container">
-                <input type="text" id="username-input" placeholder="Kısaltma/Ad (Örn: Yako)" maxlength="12" />
-                <button id="join-btn">Sıralamaya Katıl</button>
-            </div>
-            <div id="logged-in-container" class="hidden">
-                Hoş geldin, <span id="current-username" class="vada-text"></span>! 🔥
-            </div>
-        </div>
-
-        <div id="leaderboard-panel">
-            <h3>🏆 GÜNÜN REKORLARI</h3>
-            <ul id="leaderboard-list">
-                <li class="loading">Sıralama yükleniyor...</li>
-            </ul>
-        </div>
 
         <!-- Instagram Links -->
         <div id="social-links">
