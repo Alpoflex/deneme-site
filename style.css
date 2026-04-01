@@ -618,4 +618,44 @@ body.shake {
     #site-header {
         margin-bottom: 2rem;
     }
+
+    #site-footer {
+        font-size: 0.55rem;
+        white-space: nowrap;
+    }
+
+    /* Daha Okunabilir Mobil Zamanlayıcı */
+    #pitch-timer {
+        background: rgba(0, 0, 0, 0.7);
+        border: 1px solid var(--neon-pink);
+        padding: 0.2rem 0.6rem;
+    }
+
+    #pitch-time {
+        color: #ffffff;
+        text-shadow: none;
+        font-size: 0.75rem;
+    }
+
+    /* Küçültülmüş Mobil Sosyal Medya İkonları */
+    #social-links {
+        bottom: 1rem;
+        right: 1rem;
+        gap: 0.5rem;
+    }
+
+    .social-btn {
+        padding: 0.4rem;
+        border-radius: 50%;
+        border-color: rgba(138, 43, 226, 0.4);
+    }
+
+    .social-btn span {
+        display: none; /* Mobilde sadece logolar kalsın */
+    }
+
+    .social-btn svg {
+        width: 18px;
+        height: 18px;
+    }
 }
