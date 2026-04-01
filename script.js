@@ -216,25 +216,51 @@ function playSynthFallback() {
 // ===== GLOBAL COUNTER (api.counterapi.dev) =====
 const counterEl = document.getElementById('counter-value');
 const counterContainer = document.getElementById('counter-container');
-let globalClickCount = 0;
 
-// Sayfa açıldığında güncel tıklanma sayısını çek
-fetch('https://api.counterapi.dev/v1/alpoflex_denemesite/click_count')
-    .then(r => r.json())
-    .then(data => {
-        globalClickCount = data.count || 0;
-        counterEl.textContent = globalClickCount.toLocaleString('tr-TR');
+// LocalStorage'dan önceki sayayı ve sunucuya gönderilmeyi bekleyen tıklamaları al
+let globalClickCount = parseInt(localStorage.getItem('aminake-global-count') || '0', 10);
+let pendingSyncClicks = parseInt(localStorage.getItem('aminake-pending-count') || '0', 10);
+counterEl.textContent = globalClickCount.toLocaleString('tr-TR');
+
+// Sayfa açıldığında sunucudaki güncel sayıyı çek
+fetch('https://api.counterapi.dev/v1/alpoflex_denemesite/click_count/')
+    .then(r => {
+        if (!r.ok) throw new Error('API Rate Limit veya hatası');
+        return r.json();
     })
-    .catch(err => console.log('Sayaç çekilemedi:', err));
+    .then(data => {
+        // Eğer sunucudaki sayı yereldekinden büyükse sunucuyu baz al
+        if (data.count && data.count > globalClickCount) {
+            globalClickCount = data.count + pendingSyncClicks;
+        }
+        counterEl.textContent = globalClickCount.toLocaleString('tr-TR');
+        localStorage.setItem('aminake-global-count', globalClickCount);
+    })
+    .catch(err => console.log('Global sayaç çekilemedi, local önbellek kullanılıyor:', err));
+
+// Çok hızlı basıldığında API çökmesin diye (Dakikada 30 istek sınırı var)
+// Tıklamaları sıraya alıp 2 saniyede 1 kez arka planda sunucuya yolluyoruz
+setInterval(() => {
+    if (pendingSyncClicks > 0) {
+        pendingSyncClicks--;
+        localStorage.setItem('aminake-pending-count', pendingSyncClicks);
+        
+        fetch('https://api.counterapi.dev/v1/alpoflex_denemesite/click_count/up')
+            .catch(() => {
+                // Gönderilemezse (internet koptu vs.) tıklamayı geri sıraya ekle
+                pendingSyncClicks++;
+                localStorage.setItem('aminake-pending-count', pendingSyncClicks);
+            });
+    }
+}, 2000);
 
 function incrementCounter() {
-    // Ekranda sayıyı anında güncelle (Optimistic Update - bekletmeden)
+    // Ekranda sayıyı ve kuyruğu anında güncelle (Kullanıcı hiç beklemez)
     globalClickCount++;
+    pendingSyncClicks++;
+    localStorage.setItem('aminake-global-count', globalClickCount);
+    localStorage.setItem('aminake-pending-count', pendingSyncClicks);
     counterEl.textContent = globalClickCount.toLocaleString('tr-TR');
-
-    // Sunucuya arka planda artı 1 gönder
-    fetch('https://api.counterapi.dev/v1/alpoflex_denemesite/click_count/up')
-        .catch(err => console.log('Sayaç güncellenemedi:', err));
 
     // Çarpma efekti animasyonu
     counterContainer.classList.remove('bump');
