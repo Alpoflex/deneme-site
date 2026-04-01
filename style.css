@@ -21,9 +21,8 @@
 html,
 body {
     width: 100%;
-    height: 100%;
+    min-height: 100vh;
     overflow-x: hidden;
-    overflow-y: auto;
     font-family: 'Orbitron', sans-serif;
     background: var(--dark-bg);
     color: var(--text-primary);
@@ -113,13 +112,13 @@ body {
 /* ===== MAIN CONTENT ===== */
 #main-content {
     width: 100%;
-    height: 100%;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 #main-content.hidden {
@@ -771,7 +770,16 @@ body.shake {
     #site-footer {
         position: static;
         margin-top: 1rem;
-        margin-bottom: 1rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    #social-links {
+        position: static;
+        flex-direction: row;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-top: 0.5rem;
+        margin-bottom: 2rem;
     }
     
     #top-panels-container {
