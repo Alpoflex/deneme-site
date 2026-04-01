@@ -200,31 +200,43 @@ function playSynthFallback() {
     const now = audioCtx.currentTime;
     const p = currentPitch;
 
-    const osc = audioContext.createOscillator();
-    const gain = audioContext.createGain();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
     osc.type = 'sawtooth';
     osc.frequency.setValueAtTime(120 * p, now);
     osc.frequency.exponentialRampToValueAtTime(60 * p, now + 0.4 / p);
     gain.gain.setValueAtTime(0.4, now);
     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5 / p);
     osc.connect(gain);
-    gain.connect(audioContext.destination);
+    gain.connect(audioCtx.destination);
     osc.start(now);
     osc.stop(now + 0.5 / p);
 }
 
-// ===== COUNTER (localStorage) =====
+// ===== GLOBAL COUNTER (api.counterapi.dev) =====
 const counterEl = document.getElementById('counter-value');
 const counterContainer = document.getElementById('counter-container');
-let clickCount = parseInt(localStorage.getItem('aminake-count') || '0', 10);
-counterEl.textContent = clickCount.toLocaleString('tr-TR');
+let globalClickCount = 0;
+
+// Sayfa açıldığında güncel tıklanma sayısını çek
+fetch('https://api.counterapi.dev/v1/alpoflex_denemesite/click_count')
+    .then(r => r.json())
+    .then(data => {
+        globalClickCount = data.count || 0;
+        counterEl.textContent = globalClickCount.toLocaleString('tr-TR');
+    })
+    .catch(err => console.log('Sayaç çekilemedi:', err));
 
 function incrementCounter() {
-    clickCount++;
-    localStorage.setItem('aminake-count', clickCount);
-    counterEl.textContent = clickCount.toLocaleString('tr-TR');
+    // Ekranda sayıyı anında güncelle (Optimistic Update - bekletmeden)
+    globalClickCount++;
+    counterEl.textContent = globalClickCount.toLocaleString('tr-TR');
 
-    // Bump animation
+    // Sunucuya arka planda artı 1 gönder
+    fetch('https://api.counterapi.dev/v1/alpoflex_denemesite/click_count/up')
+        .catch(err => console.log('Sayaç güncellenemedi:', err));
+
+    // Çarpma efekti animasyonu
     counterContainer.classList.remove('bump');
     void counterContainer.offsetWidth; // force reflow
     counterContainer.classList.add('bump');
