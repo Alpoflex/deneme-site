@@ -111,16 +111,7 @@ animateParticles();
 
 // ===== SOUND + PITCH SYSTEM =====
 const baseAudio = new Audio('aminake.mp3');
-baseAudio.preload = 'auto';
-let soundLoaded = false;
-
-baseAudio.addEventListener('canplaythrough', () => {
-    soundLoaded = true;
-    console.log('✅ aminake.mp3 yüklendi!');
-});
-baseAudio.addEventListener('error', () => {
-    console.log('⚠️ aminake.mp3 bulunamadı, sentez ses kullanılacak.');
-});
+baseAudio.preload = 'auto'; // Vercel vb. sunucularda arkaplanda yüklemeye başla
 
 let currentPitch = 1.0;       // Başlangıç pitch (normal hız)
 const PITCH_INCREMENT = 0.15; // Her tıklamada ne kadar incelsin
@@ -165,20 +156,19 @@ function playSound() {
         }, 1000);
     }
 
-    if (soundLoaded) {
-        // MP3 dosyasını çal — her tıklamada yeni kopya (üst üste binebilsin)
-        const clone = baseAudio.cloneNode();
-        clone.preservesPitch = false;          // Pitch değişsin!
-        clone.mozPreservesPitch = false;         // Firefox
-        clone.webkitPreservesPitch = false;      // Eski Safari
-        clone.playbackRate = currentPitch;
-        clone.play();
-        // Bitince hafızadan temizle
-        clone.addEventListener('ended', () => clone.remove());
-    } else {
-        // Fallback: sentez ses
+    // MP3 dosyasını çal. (Vercel vb. ağ üzerinden yüklerken canplaythrough geç tetiklenebileceği için beklemiyoruz)
+    const clone = baseAudio.cloneNode();
+    clone.preservesPitch = false;          // Pitch değişsin!
+    clone.mozPreservesPitch = false;         // Firefox
+    clone.webkitPreservesPitch = false;      // Eski Safari
+    clone.playbackRate = currentPitch;
+    clone.play().catch((err) => {
+        console.log('Audio çalınamadı, fallback kullanılıyor:', err);
         playSynthFallback();
-    }
+    });
+
+    // Bitince hafızadan temizle
+    clone.addEventListener('ended', () => clone.remove());
 }
 
 // Fallback sentez ses (mp3 yoksa)
