@@ -1,3 +1,21 @@
+// ===== FIREBASE & SCOREBOARD =====
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+import { getDatabase, ref, onValue, update, increment, query, orderByChild, limitToLast } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyA9J0vBh5JJ_1FFKFOhZTQ4h5PaL0UwMx0",
+    authDomain: "aminake-b8df8.firebaseapp.com",
+    databaseURL: "https://aminake-b8df8-default-rtdb.firebaseio.com",
+    projectId: "aminake-b8df8",
+    storageBucket: "aminake-b8df8.firebasestorage.app",
+    messagingSenderId: "321291923055",
+    appId: "1:321291923055:web:d2ab056bbcfaa2df93279a",
+    measurementId: "G-18V4WVSKPM"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
 // ===== INTRO SEQUENCE =====
 document.addEventListener('DOMContentLoaded', () => {
     const overlay = document.getElementById('intro-overlay');
@@ -212,24 +230,6 @@ function playSynthFallback() {
     osc.start(now);
     osc.stop(now + 0.5 / p);
 }
-
-// ===== FIREBASE & SCOREBOARD =====
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
-import { getDatabase, ref, onValue, update, increment, query, orderByChild, limitToLast } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyA9J0vBh5JJ_1FFKFOhZTQ4h5PaL0UwMx0",
-    authDomain: "aminake-b8df8.firebaseapp.com",
-    databaseURL: "https://aminake-b8df8-default-rtdb.firebaseio.com",
-    projectId: "aminake-b8df8",
-    storageBucket: "aminake-b8df8.firebasestorage.app",
-    messagingSenderId: "321291923055",
-    appId: "1:321291923055:web:d2ab056bbcfaa2df93279a",
-    measurementId: "G-18V4WVSKPM"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
 
 // DOM Elements
 const authContainer = document.getElementById('auth-container');
