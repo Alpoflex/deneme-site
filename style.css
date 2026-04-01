@@ -769,6 +769,9 @@ body.shake {
     
     #site-footer {
         position: static;
+        translate: none;
+        width: 100%;
+        text-align: center;
         margin-top: 1rem;
         margin-bottom: 0.5rem;
     }
