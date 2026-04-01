@@ -595,8 +595,177 @@ body.shake {
     filter: drop-shadow(0 0 5px var(--neon-pink));
 }
 
+/* ===== LEADERBOARD & AUTH ===== */
+#auth-panel {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 50;
+    background: rgba(18, 18, 26, 0.7);
+    padding: 0.8rem;
+    border-radius: 12px;
+    border: 1px solid rgba(138, 43, 226, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+#auth-container {
+    display: flex;
+    gap: 0.5rem;
+}
+
+#username-input {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--neon-purple);
+    color: #fff;
+    padding: 0.5rem;
+    border-radius: 6px;
+    outline: none;
+    font-family: inherit;
+    font-size: 0.85rem;
+    width: 140px;
+}
+
+#username-input:focus {
+    box-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+}
+
+#join-btn {
+    background: rgba(138, 43, 226, 0.2);
+    border: 1px solid var(--neon-purple);
+    color: var(--neon-cyan);
+    padding: 0.5rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.55rem;
+    transition: all 0.2s;
+}
+
+#join-btn:hover {
+    background: var(--neon-purple);
+    color: #fff;
+    box-shadow: 0 0 15px var(--neon-purple);
+}
+
+#logged-in-container {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+#leaderboard-panel {
+    position: fixed;
+    top: 5rem;
+    right: 1rem;
+    z-index: 40;
+    background: rgba(10, 10, 15, 0.85);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(138, 43, 226, 0.4);
+    backdrop-filter: blur(15px);
+    width: 250px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(138, 43, 226, 0.2);
+}
+
+#leaderboard-panel h3 {
+    text-align: center;
+    color: #ffd700;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+    padding-bottom: 0.5rem;
+}
+
+#leaderboard-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+#leaderboard-list::-webkit-scrollbar {
+    width: 4px;
+}
+#leaderboard-list::-webkit-scrollbar-thumb {
+    background: var(--neon-purple);
+    border-radius: 4px;
+}
+
+#leaderboard-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    padding: 0.4rem;
+    background: rgba(255,255,255,0.03);
+    border-radius: 6px;
+    border-left: 3px solid transparent;
+}
+
+#leaderboard-list li.loading {
+    justify-content: center;
+    color: var(--text-secondary);
+}
+
+/* İlk 3 sıra için özel renkler */
+#leaderboard-list li:nth-child(1) {
+    border-left-color: #ffd700; /* Gold */
+    background: rgba(255, 215, 0, 0.1);
+    font-weight: bold;
+    color: #ffd700;
+    font-size: 0.95rem;
+}
+#leaderboard-list li:nth-child(2) {
+    border-left-color: #c0c0c0; /* Silver */
+    background: rgba(192, 192, 192, 0.1);
+    color: #c0c0c0;
+}
+#leaderboard-list li:nth-child(3) {
+    border-left-color: #cd7f32; /* Bronze */
+    background: rgba(205, 127, 50, 0.1);
+    color: #cd7f32;
+}
+
+.lb-name {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.lb-score {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.55rem;
+    color: var(--neon-cyan);
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 480px) {
+    #auth-panel {
+        top: 0.5rem;
+        right: 0.5rem;
+        left: 0.5rem;
+        display: flex;
+        justify-content: center;
+    }
+    
+    #leaderboard-panel {
+        top: 4.5rem;
+        right: 0.5rem;
+        left: 0.5rem;
+        width: auto;
+        padding: 1rem;
+        max-height: 200px;
+    }
+    
+    #leaderboard-list {
+        max-height: 120px;
+    }
     #aminake-btn {
         width: 150px;
         height: 150px;

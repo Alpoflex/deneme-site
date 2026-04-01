@@ -213,58 +213,127 @@ function playSynthFallback() {
     osc.stop(now + 0.5 / p);
 }
 
-// ===== GLOBAL COUNTER (api.counterapi.dev) =====
+// ===== FIREBASE & SCOREBOARD =====
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+import { getDatabase, ref, onValue, update, increment, query, orderByChild, limitToLast } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyA9J0vBh5JJ_1FFKFOhZTQ4h5PaL0UwMx0",
+    authDomain: "aminake-b8df8.firebaseapp.com",
+    databaseURL: "https://aminake-b8df8-default-rtdb.firebaseio.com",
+    projectId: "aminake-b8df8",
+    storageBucket: "aminake-b8df8.firebasestorage.app",
+    messagingSenderId: "321291923055",
+    appId: "1:321291923055:web:d2ab056bbcfaa2df93279a",
+    measurementId: "G-18V4WVSKPM"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+// DOM Elements
+const authContainer = document.getElementById('auth-container');
+const loggedInContainer = document.getElementById('logged-in-container');
+const usernameInput = document.getElementById('username-input');
+const joinBtn = document.getElementById('join-btn');
+const currentUsernameSpan = document.getElementById('current-username');
+const leaderboardList = document.getElementById('leaderboard-list');
 const counterEl = document.getElementById('counter-value');
 const counterContainer = document.getElementById('counter-container');
 
-// LocalStorage'dan önceki sayayı ve sunucuya gönderilmeyi bekleyen tıklamaları al
-let globalClickCount = parseInt(localStorage.getItem('aminake-global-count') || '0', 10);
-let pendingSyncClicks = parseInt(localStorage.getItem('aminake-pending-count') || '0', 10);
-counterEl.textContent = globalClickCount.toLocaleString('tr-TR');
+// Auth: Kullanıcı adı kontrolü
+let currentUser = localStorage.getItem('aminake-username') || null;
 
-// Sayfa açıldığında sunucudaki güncel sayıyı çek
-fetch('https://api.counterapi.dev/v1/alpoflex_denemesite/click_count/')
-    .then(r => {
-        if (!r.ok) throw new Error('API Rate Limit veya hatası');
-        return r.json();
-    })
-    .then(data => {
-        // Eğer sunucudaki sayı yereldekinden büyükse sunucuyu baz al
-        if (data.count && data.count > globalClickCount) {
-            globalClickCount = data.count + pendingSyncClicks;
-        }
-        counterEl.textContent = globalClickCount.toLocaleString('tr-TR');
-        localStorage.setItem('aminake-global-count', globalClickCount);
-    })
-    .catch(err => console.log('Global sayaç çekilemedi, local önbellek kullanılıyor:', err));
+if (currentUser) {
+    showLoggedIn(currentUser);
+}
 
-// Çok hızlı basıldığında API çökmesin diye (Dakikada 30 istek sınırı var)
-// Tıklamaları sıraya alıp 2 saniyede 1 kez arka planda sunucuya yolluyoruz
+joinBtn.addEventListener('click', () => {
+    const val = usernameInput.value.trim();
+    if (val.length > 0) {
+        currentUser = val;
+        localStorage.setItem('aminake-username', currentUser);
+        showLoggedIn(currentUser);
+    }
+});
+
+function showLoggedIn(name) {
+    authContainer.classList.add('hidden');
+    loggedInContainer.classList.remove('hidden');
+    currentUsernameSpan.textContent = name;
+}
+
+// Global Durum
+let globalClickCount = parseInt(counterEl.textContent.replace(/\./g, '')) || 0;
+let pendingSyncClicks = 0;
+
+// 1. Dinleyici: Global Toplam Sayı
+onValue(ref(db, 'global/count'), (snapshot) => {
+    const serverCount = snapshot.val() || 0;
+    // Eğer sunucu + bekleyenler bizim yerelden büyükse eşitle
+    if (serverCount + pendingSyncClicks > globalClickCount) {
+        globalClickCount = serverCount + pendingSyncClicks;
+    }
+    counterEl.textContent = globalClickCount.toLocaleString('tr-TR');
+});
+
+// 2. Dinleyici: Canlı Skorboard (En çok basan 10 kişi)
+const topUsersQuery = query(ref(db, 'users'), orderByChild('score'), limitToLast(10));
+onValue(topUsersQuery, (snapshot) => {
+    const users = [];
+    snapshot.forEach((childSnap) => {
+        users.push({
+            name: childSnap.key,
+            score: childSnap.val().score
+        });
+    });
+    
+    // Puanları büyükten küçüğe sıralamak için ters çevir (limitToLast artan verir)
+    users.reverse();
+    
+    leaderboardList.innerHTML = '';
+    if (users.length === 0) {
+        leaderboardList.innerHTML = '<li style="justify-content: center; color: #888;">Liste boş!</li>';
+        return;
+    }
+    
+    users.forEach(u => {
+        const li = document.createElement('li');
+        li.innerHTML = `<span class="lb-name">${u.name}</span><span class="lb-score">${u.score.toLocaleString('tr-TR')}</span>`;
+        leaderboardList.appendChild(li);
+    });
+});
+
+// 3. Veritabanına Yollayıcı (Toplu Batched Update)
+// 1.5 saniyede bir bekleyen tıklamaları Firebase'e yollar
 setInterval(() => {
     if (pendingSyncClicks > 0) {
-        pendingSyncClicks--;
-        localStorage.setItem('aminake-pending-count', pendingSyncClicks);
+        const clicksToSend = pendingSyncClicks;
+        pendingSyncClicks = 0;
         
-        fetch('https://api.counterapi.dev/v1/alpoflex_denemesite/click_count/up')
-            .catch(() => {
-                // Gönderilemezse (internet koptu vs.) tıklamayı geri sıraya ekle
-                pendingSyncClicks++;
-                localStorage.setItem('aminake-pending-count', pendingSyncClicks);
-            });
+        const updates = {};
+        updates['global/count'] = increment(clicksToSend);
+        
+        if (currentUser) {
+            updates[`users/${currentUser}/score`] = increment(clicksToSend);
+        }
+        
+        update(ref(db), updates).catch(err => {
+            console.error("Firebase sync hatası", err);
+            pendingSyncClicks += clicksToSend; // Hata olursa geri al
+        });
     }
-}, 2000);
+}, 1500);
 
 function incrementCounter() {
-    // Ekranda sayıyı ve kuyruğu anında güncelle (Kullanıcı hiç beklemez)
+    // Ekranda anında güncelle (Live Update)
     globalClickCount++;
     pendingSyncClicks++;
-    localStorage.setItem('aminake-global-count', globalClickCount);
-    localStorage.setItem('aminake-pending-count', pendingSyncClicks);
     counterEl.textContent = globalClickCount.toLocaleString('tr-TR');
 
-    // Çarpma efekti animasyonu
+    // Animasyon
     counterContainer.classList.remove('bump');
-    void counterContainer.offsetWidth; // force reflow
+    void counterContainer.offsetWidth; // reflow
     counterContainer.classList.add('bump');
 }
 
