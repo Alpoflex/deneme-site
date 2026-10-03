@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oyunlar: CPS Testi, Reaksiyon Testi ve Mini Oyunlar | amınake</title>
-    <meta name="description" content="Tarayıcıda ücretsiz oynanan mini oyunlar: CPS testi, reaksiyon testi, Vada Yakala, Ritim Hafızası ve Vada Zıpla.">
+    <title>Mini Oyunlar: CPS Testi, Reaksiyon, Aim, 2048 ve Dahası | amınake</title>
+    <meta name="description" content="Tarayıcıda ücretsiz oynanan 10 mini oyun: CPS testi, reaksiyon testi, nişan testi, yazma hızı testi, hafıza kartları, renk testi, 2048 ve daha fazlası.">
     <link rel="canonical" href="https://xn--amnake-q9a.com/oyunlar">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="amınake">
-    <meta property="og:title" content="Oyunlar: CPS Testi, Reaksiyon Testi ve Mini Oyunlar | amınake">
-    <meta property="og:description" content="Tarayıcıda ücretsiz oynanan mini oyunlar: CPS testi, reaksiyon testi, Vada Yakala, Ritim Hafızası ve Vada Zıpla.">
+    <meta property="og:title" content="Mini Oyunlar: CPS Testi, Reaksiyon, Aim, 2048 ve Dahası | amınake">
+    <meta property="og:description" content="Tarayıcıda ücretsiz oynanan 10 mini oyun: CPS testi, reaksiyon testi, nişan testi, yazma hızı testi, hafıza kartları, renk testi, 2048 ve daha fazlası.">
     <meta property="og:url" content="https://xn--amnake-q9a.com/oyunlar">
     <meta property="og:image" content="https://xn--amnake-q9a.com/vada.webp">
     <meta name="theme-color" content="#100b17">
@@ -36,13 +36,28 @@
 <body>
     <header class="ust-menu">
         <a class="logo" href="/">AMINAKE</a>
-        <nav aria-label="Ana menü"><ul><li><a href="/">Buton</a></li><li><a href="/oyunlar" aria-current="page">Oyunlar</a></li><li><a href="/hakkinda">Hakkında</a></li></ul></nav>
+        <nav aria-label="Ana menü"><ul><li><a href="/">Buton</a></li><li><a href="/oyunlar" aria-current="page">Oyunlar</a></li><li><a href="/rehber">Rehber</a></li><li><a href="/hakkinda">Hakkında</a></li></ul></nav>
     </header>
 
     <main class="vitrin">
-        <h1>Oyunlar</h1>
-        <p>Butona basmaktan sıkıldıysan buradaki mini oyunlara geç. Hepsi tarayıcıda çalışır, üyelik ya da indirme gerekmez. Telefonda dokunarak, bilgisayarda mouse veya klavyeyle oynayabilirsin. Rekorların bu tarayıcıda saklanır.</p>
-        <ul class="oyun-listesi">
+        <nav class="yol" aria-label="Neredesin"><ol>
+            <li><a href="/">Ana sayfa</a></li><li>Oyunlar</li>
+        </ol></nav>
+
+        <div class="kahraman">
+            <h1>Oyunlar</h1>
+            <p>Hepsi doğrudan tarayıcıda çalışır. Üyelik, indirme ya da eklenti gerekmez. Telefonda dokunarak, bilgisayarda fare ve klavyeyle oynayabilirsin. Kişisel rekorların kendi cihazında saklanır, hiçbir yere gönderilmez.</p>
+            <ul class="rozetler">
+                <li>10 OYUN</li>
+                <li>UCRETSIZ</li>
+                <li>UYELIK YOK</li>
+                <li>MOBIL UYUMLU</li>
+            </ul>
+        </div>
+
+        <section class="oyun-grup">
+            <div class="grup-bas"><h2>Hız ve refleks</h2><span>Ne kadar hızlısın, ölçelim</span></div>
+            <ul class="oyun-listesi">
                 <li><a class="oyun-karti" href="/oyunlar/cps-testi" style="--renk:#00f0ff">
                     <span class="ikon" aria-hidden="true">👆</span>
                     <div><h2>CPS Testi</h2><p>Saniyede kaç kez tıklayabiliyorsun? 1, 5 ve 10 saniyelik modlar.</p></div>
@@ -53,38 +68,106 @@
                     <div><h2>Reaksiyon Testi</h2><p>Ekran yeşile dönünce bas. Refleksini milisaniye cinsinden ölç.</p></div>
                     <span class="rekor-etiket" data-rekor="reaksiyon" data-birim="ms"></span>
                 </a></li>
-                <li><a class="oyun-karti" href="/oyunlar/vada-yakala" style="--renk:#9b51e0">
-                    <span class="ikon" aria-hidden="true">🎯</span>
-                    <div><h2>Vada Yakala</h2><p>Deliklerden çıkan Vada'ları yakala, bombalara dokunma.</p></div>
-                    <span class="rekor-etiket" data-rekor="vada-yakala" data-birim="puan"></span>
+                <li><a class="oyun-karti" href="/oyunlar/aim-testi" style="--renk:#ff7a3d">
+                    <span class="etiket">YENİ</span>
+                    <span class="ikon" aria-hidden="true">🔫</span>
+                    <div><h2>Nişan Testi</h2><p>Rastgele beliren hedefleri vur. Hedef başına ortalama süreni gör.</p></div>
+                    <span class="rekor-etiket" data-rekor="aim-30" data-birim="ms (30 hedef)"></span>
                 </a></li>
-                <li><a class="oyun-karti" href="/oyunlar/ritim-hafizasi" style="--renk:#ffd700">
+                <li><a class="oyun-karti" href="/oyunlar/yazma-hizi" style="--renk:#ffd700">
+                    <span class="etiket">YENİ</span>
+                    <span class="ikon" aria-hidden="true">⌨️</span>
+                    <div><h2>Yazma Hızı Testi</h2><p>Türkçe metinlerle dakikada kaç kelime yazdığını ölç.</p></div>
+                    <span class="rekor-etiket" data-rekor="yazma-60" data-birim="WPM (60 sn)"></span>
+                </a></li>
+            </ul>
+        </section>
+
+        <section class="oyun-grup">
+            <div class="grup-bas"><h2>Hafıza ve dikkat</h2><span>Gözünü ve belleğini zorla</span></div>
+            <ul class="oyun-listesi">
+                <li><a class="oyun-karti" href="/oyunlar/ritim-hafizasi" style="--renk:#9b51e0">
                     <span class="ikon" aria-hidden="true">🎵</span>
                     <div><h2>Ritim Hafızası</h2><p>Sesleri dinle, aynı sırayla tekrar et. Her turda dizi uzar.</p></div>
                     <span class="rekor-etiket" data-rekor="ritim" data-birim="seviye"></span>
                 </a></li>
-                <li><a class="oyun-karti" href="/oyunlar/vada-zipla" style="--renk:#ff3b6b">
+                <li><a class="oyun-karti" href="/oyunlar/hafiza-kartlari" style="--renk:#00f0ff">
+                    <span class="etiket">YENİ</span>
+                    <span class="ikon" aria-hidden="true">🃏</span>
+                    <div><h2>Hafıza Kartları</h2><p>Kartları çevir, eşleri bul. 6, 8 ve 12 çiftlik zorluklar.</p></div>
+                    <span class="rekor-etiket" data-rekor="hafiza-8" data-birim="sn (8 çift)"></span>
+                </a></li>
+                <li><a class="oyun-karti" href="/oyunlar/renk-testi" style="--renk:#39ff14">
+                    <span class="etiket">YENİ</span>
+                    <span class="ikon" aria-hidden="true">🎨</span>
+                    <div><h2>Renk Ayırt Etme</h2><p>Izgaradaki farklı tondaki kareyi bul. Her seviyede fark küçülür.</p></div>
+                    <span class="rekor-etiket" data-rekor="renk" data-birim="seviye"></span>
+                </a></li>
+            </ul>
+        </section>
+
+        <section class="oyun-grup">
+            <div class="grup-bas"><h2>Arcade ve bulmaca</h2><span>Uzun oynamalık olanlar</span></div>
+            <ul class="oyun-listesi">
+                <li><a class="oyun-karti" href="/oyunlar/vada-yakala" style="--renk:#ff3b6b">
+                    <span class="ikon" aria-hidden="true">🎯</span>
+                    <div><h2>Vada Yakala</h2><p>Deliklerden çıkan Vada'ları yakala, bombalara dokunma.</p></div>
+                    <span class="rekor-etiket" data-rekor="vada-yakala" data-birim="puan"></span>
+                </a></li>
+                <li><a class="oyun-karti" href="/oyunlar/vada-zipla" style="--renk:#9b51e0">
                     <span class="ikon" aria-hidden="true">🏃</span>
                     <div><h2>Vada Zıpla</h2><p>Sonsuz koşu: engellerin üstünden atla, ne kadar uzağa gidebilirsin?</p></div>
                     <span class="rekor-etiket" data-rekor="vada-zipla" data-birim="metre"></span>
                 </a></li>
-        </ul>
+                <li><a class="oyun-karti" href="/oyunlar/2048" style="--renk:#ffd700">
+                    <span class="etiket">YENİ</span>
+                    <span class="ikon" aria-hidden="true">🔢</span>
+                    <div><h2>2048</h2><p>Aynı sayıları birleştir, 2048 taşına ulaş. Klavye ve dokunma destekli.</p></div>
+                    <span class="rekor-etiket" data-rekor="2048" data-birim="puan"></span>
+                </a></li>
+            </ul>
+        </section>
+
+        <script type="module">
+            import { rekorOku } from '/assets/ortak.js';
+            document.querySelectorAll('[data-rekor]').forEach(el => {
+                const r = rekorOku(el.dataset.rekor);
+                el.textContent = '';
+                if (r === null) { el.textContent = 'Henüz oynamadın'; return; }
+                el.append('Rekorun: ');
+                const b = document.createElement('b');
+                b.textContent = r;
+                el.append(b, ' ' + el.dataset.birim);
+            });
+        </script>
+
+        <article class="oyun-rehber" style="margin-top:3rem;max-width:46rem">
+            <h2>Hangi oyunla başlamalı?</h2>
+            <p>Aceleniz varsa ve sadece bir sayı görmek istiyorsanız <a href="/oyunlar/reaksiyon-testi">reaksiyon testi</a> otuz saniye sürer. Birini yenmek istiyorsanız <a href="/oyunlar/cps-testi">CPS testi</a> arkadaş ortamında en çok tartışma çıkaran oyundur. Uzun uzun oyalanmak istiyorsanız <a href="/oyunlar/2048">2048</a> tek oturuşta yarım saatinizi alabilir.</p>
+
+            <h2>Rekorlarım nerede saklanıyor?</h2>
+            <p>Bütün kişisel rekorlar tarayıcının yerel depolamasında tutulur. Sunucuya gönderilmez, başka kimse göremez ve hesap açman gerekmez. Tarayıcı verilerini temizlersen ya da farklı bir cihazdan girersen rekorlar sıfırdan başlar. Ana sayfadaki ortak sayaç ve sıralama bundan ayrıdır; orası herkesin katıldığı canlı bir tablodur.</p>
+
+            <h2>Telefonda oynanır mı?</h2>
+            <p>Hepsi mobil uyumlu. 2048'de parmağınla kaydırabilir, Vada Zıpla'da ekrana basılı tutabilir, yazma testinde telefon klavyesini kullanabilirsin. Tek istisna yazma hızı testidir: fiziksel klavye olmadan alacağın sonuç gerçek hızını yansıtmaz.</p>
+
+            <h2>Ses neden gelmiyor?</h2>
+            <p>Tarayıcılar, sayfaya ilk dokunuş gerçekleşene kadar ses çalmaya izin vermez. İlk tıklamadan sonra ses açılır. Her oyun sayfasında sesi tamamen kapatabileceğin bir düğme var ve bu tercih bütün oyunlarda hatırlanır.</p>
+
+            <h2>Daha fazlası</h2>
+            <p>Oyunların arkasındaki konuları merak ediyorsan <a href="/rehber">rehber bölümünde</a> tıklama teknikleri, reaksiyon süresi, nişan antrenmanı ve klavye kullanımı üzerine ayrıntılı yazılar var.</p>
+        </article>
     </main>
-    <script type="module">
-        import { rekorOku } from '/assets/ortak.js';
-        document.querySelectorAll('[data-rekor]').forEach(el => {
-            const r = rekorOku(el.dataset.rekor);
-            el.innerHTML = r === null ? 'Henüz oynamadın' : `Rekorun: <b>${r}</b> ${el.dataset.birim}`;
-        });
-    </script>
     <footer class="alt-bilgi">
         <span>© 2026 Alpoflex &amp; Yako</span>
         <nav aria-label="Alt menü">
             <a href="/oyunlar">Oyunlar</a>
+            <a href="/rehber">Rehber</a>
             <a href="/hakkinda">Hakkında</a>
             <a href="/iletisim">İletişim</a>
             <a href="/gizlilik">Gizlilik ve Çerezler</a>
         </nav>
     </footer>
+
 </body>
 </html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hafıza Kartları Oyunu: Eşleştirme Oyunu Oyna | amınake</title>
+    <meta name="description" content="Ücretsiz hafıza kartları oyunu. Kartları çevir, eşleri bul, süreni ve hamle sayını gör. 6, 8 ve 12 çiftlik zorluk seviyeleri.">
+    <link rel="canonical" href="https://xn--amnake-q9a.com/oyunlar/hafiza-kartlari">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="amınake">
+    <meta property="og:title" content="Hafıza Kartları Oyunu: Eşleştirme Oyunu Oyna | amınake">
+    <meta property="og:description" content="Ücretsiz hafıza kartları oyunu. Kartları çevir, eşleri bul, süreni ve hamle sayını gör. 6, 8 ve 12 çiftlik zorluk seviyeleri.">
+    <meta property="og:url" content="https://xn--amnake-q9a.com/oyunlar/hafiza-kartlari">
+    <meta property="og:image" content="https://xn--amnake-q9a.com/vada.webp">
+    <meta name="theme-color" content="#100b17">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/site.css">
+    <style>
+        .hafiza-sahne { padding: 1.3rem clamp(.8rem, 3vw, 1.6rem) 1.6rem; }
+        #tahta {
+            display: grid; gap: clamp(.4rem, 1.6vw, .7rem);
+            grid-template-columns: repeat(var(--sutun, 4), 1fr);
+            max-width: 32rem; margin: 0 auto;
+        }
+        .kart {
+            position: relative; aspect-ratio: 1; border: 0; padding: 0; cursor: pointer;
+            background: transparent; transform-style: preserve-3d;
+            transition: transform .35s; touch-action: manipulation;
+        }
+        .kart.acik, .kart.bitti { transform: rotateY(180deg); }
+        .kart .on, .kart .arka {
+            position: absolute; inset: 0; display: grid; place-content: center;
+            border-radius: 12px; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+            font-size: clamp(1.4rem, 6vw, 2.2rem);
+        }
+        .kart .on {
+            background: linear-gradient(145deg, var(--yuzey-2), var(--yuzey));
+            border: 1px solid var(--cizgi);
+        }
+        .kart .on::after { content: "?"; font-family: var(--piksel); font-size: .8rem; color: var(--mor); }
+        .kart .arka {
+            transform: rotateY(180deg);
+            background: radial-gradient(circle at 50% 30%, #32204a, #150f1f);
+            border: 1px solid var(--mor);
+        }
+        .kart.bitti .arka { border-color: var(--yesil); box-shadow: 0 0 16px rgba(57, 255, 20, .3); }
+        .kart.bitti { cursor: default; }
+        .hafiza-ust { display: flex; justify-content: center; margin-bottom: .8rem; }
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-18V4WVSKPM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-18V4WVSKPM');
+    </script>
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4795948929172388"
+     crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header class="ust-menu">
+        <a class="logo" href="/">AMINAKE</a>
+        <nav aria-label="Ana menü"><ul><li><a href="/">Buton</a></li><li><a href="/oyunlar" aria-current="page">Oyunlar</a></li><li><a href="/rehber">Rehber</a></li><li><a href="/hakkinda">Hakkında</a></li></ul></nav>
+    </header>
+
+    <main class="oyun-sayfa">
+        <nav class="yol" aria-label="Neredesin"><ol>
+            <li><a href="/">Ana sayfa</a></li><li><a href="/oyunlar">Oyunlar</a></li><li>Hafıza Kartları</li>
+        </ol></nav>
+
+        <div class="oyun-bas">
+            <div>
+                <h1>Hafıza Kartları</h1>
+                <p>Kartları çevir, aynı simgeden iki tane bul. Eşleşenler açık kalır.</p>
+            </div>
+            <div class="skor-seridi">
+                <div class="skor"><small>Süre</small><output id="sure">0</output></div>
+                <div class="skor"><small>Hamle</small><output id="hamle">0</output></div>
+                <div class="skor rekor"><small>Rekorun</small><output id="rekor">—</output></div>
+            </div>
+        </div>
+
+        <div class="hafiza-ust">
+            <div class="secenekler" role="group" aria-label="Zorluk seç">
+                <button type="button" data-cift="6" aria-pressed="false">6 çift</button>
+                <button type="button" data-cift="8" aria-pressed="true">8 çift</button>
+                <button type="button" data-cift="12" aria-pressed="false">12 çift</button>
+            </div>
+        </div>
+
+        <div class="sahne hafiza-sahne">
+            <div id="tahta"></div>
+            <div class="durum" id="basla">
+                <h2>Hafıza Kartları</h2>
+                <p>Kartların yeri her oyunda değişir. Süre ilk kartı çevirdiğinde başlar.</p>
+                <button class="dugme" id="baslat" type="button">Başla</button>
+                <button id="ses-dugmesi" class="dugme ikincil" type="button" style="padding:.45rem 1rem;font-size:.85rem"></button>
+            </div>
+            <div class="durum" id="sonuc" hidden>
+                <p class="buyuk" id="sonuc-sure"></p>
+                <h2 id="sonuc-unvan"></h2>
+                <p id="sonuc-detay"></p>
+                <p class="yeni-rekor" id="sonuc-rekor" hidden>★ Yeni rekor ★</p>
+                <button class="dugme" id="tekrar" type="button">Tekrar oyna</button>
+            </div>
+        </div>
+
+        <article class="oyun-rehber">
+            <h2>Oyun nasıl oynanır?</h2>
+            <p>Tahtadaki bütün kartlar kapalı başlar. Bir karta tıkladığında arkasındaki simge görünür. İkinci bir kart çevirdiğinde iki simge aynıysa kartlar açık kalır; farklıysa kısa bir süre sonra ikisi de kapanır. Amaç bütün çiftleri en kısa sürede ve en az hamleyle bulmaktır. Her iki kart çevirme işlemi bir hamle sayılır, yani 8 çiftlik bir tahta teorik olarak 8 hamlede bitirilebilir.</p>
+
+            <h2>Zorluk seviyeleri</h2>
+            <ul>
+                <li><strong>6 çift (12 kart):</strong> Isınma turu. Çocuklar ve ilk deneme için uygun.</li>
+                <li><strong>8 çift (16 kart):</strong> Klasik boyut. Çoğu kişinin kısa süreli hafıza kapasitesini zorlayan tatlı nokta burası.</li>
+                <li><strong>12 çift (24 kart):</strong> Ciddi zorluk. Tek tek ezberlemek yerine konumları gruplayarak hatırlamak gerekir.</li>
+            </ul>
+
+            <h2>Neden bazı insanlar bu oyunda çok iyi?</h2>
+            <p>Hafıza kartları, çalışan bellek dediğimiz kısa süreli zihinsel not defterini kullanır. Bu defterin kapasitesi sınırlıdır; çoğu yetişkin aynı anda yaklaşık dört ile yedi arası bilgi parçasını tutabilir. Oyunda iyi olanlar daha büyük bir hafızaya sahip olmaktan çok, bilgiyi daha verimli paketlemeyi öğrenmiş kişilerdir.</p>
+
+            <h2>Daha hızlı bitirmenin yolları</h2>
+            <h3>Konumu simgeyle birlikte kodla</h3>
+            <p>"Roket vardı" diye hatırlamak işe yaramaz, çünkü nerede olduğunu bilmezsin. Bunun yerine "sol üst köşenin hemen altında roket" gibi konumu da içeren bir not tut. Zihin, mekânsal bilgiyi soyut bilgiden çok daha iyi saklar.</p>
+            <h3>Satır satır tara</h3>
+            <p>Rastgele kart açmak yerine ilk turlarda düzenli bir sırayla ilerlemek, hangi bölgeyi gördüğünü takip etmeni kolaylaştırır. Rastgele açtığında aynı kartı farkında olmadan tekrar tekrar çevirirsin.</p>
+            <h3>Bildiğin çifti hemen kapat</h3>
+            <p>Eşini bildiğin bir kart varsa onu beklemeden al. Açık kalan her çift tahtayı küçültür ve geri kalanı hatırlamanı kolaylaştırır.</p>
+            <h3>Hikâye kur</h3>
+            <p>Yan yana gördüğün iki simgeyi saçma da olsa bir cümleyle bağlamak ("tilki pizzayı kaptı") hatırlama oranını ciddi şekilde artırır. Bu, hafıza sporcularının kullandığı en temel tekniktir.</p>
+
+            <h2>Beyin egzersizi olarak faydalı mı?</h2>
+            <p>Bu tür oyunlar oynadıkça o oyunda ustalaşmanı sağlar; genel zekâyı artırdığına dair güçlü bir kanıt yoktur. Ama dikkat toplamayı gerektiren kısa molalar için keyifli ve zararsız bir seçenektir. Günde birkaç tur, ekrandan bir şey izlemekten daha aktif bir dinlenme sayılır.</p>
+
+            <p>Rekorun en kısa bitirme süresidir, her zorluk için ayrı tutulur ve sadece bu tarayıcıda saklanır.</p>
+        </article>
+
+        <aside class="ilgili-rehber">
+            Hafıza ve dikkat üzerine daha fazlası: <a href="/rehber/reaksiyon-suresi-nedir">Reaksiyon süresi rehberi</a>
+        </aside>
+
+        <nav class="diger-oyunlar" aria-label="Diğer oyunlar">
+            <h2>Diğer oyunlar</h2>
+            <ul><li><a href="/oyunlar/cps-testi">CPS Testi</a></li><li><a href="/oyunlar/reaksiyon-testi">Reaksiyon Testi</a></li><li><a href="/oyunlar/aim-testi">Nişan Testi</a></li><li><a href="/oyunlar/yazma-hizi">Yazma Hızı Testi</a></li><li><a href="/oyunlar/ritim-hafizasi">Ritim Hafızası</a></li><li><a href="/oyunlar/renk-testi">Renk Ayırt Etme</a></li><li><a href="/oyunlar/vada-yakala">Vada Yakala</a></li><li><a href="/oyunlar/vada-zipla">Vada Zıpla</a></li><li><a href="/oyunlar/2048">2048</a></li></ul>
+        </nav>
+    </main>
+    <footer class="alt-bilgi">
+        <span>© 2026 Alpoflex &amp; Yako</span>
+        <nav aria-label="Alt menü">
+            <a href="/oyunlar">Oyunlar</a>
+            <a href="/rehber">Rehber</a>
+            <a href="/hakkinda">Hakkında</a>
+            <a href="/iletisim">İletişim</a>
+            <a href="/gizlilik">Gizlilik ve Çerezler</a>
+        </nav>
+    </footer>
+    <script type="module" src="/oyunlar/hafiza-kartlari.js"></script>
+</body>
+</html>

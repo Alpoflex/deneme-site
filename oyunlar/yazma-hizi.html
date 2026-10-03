@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yazma Hızı Testi: Dakikada Kaç Kelime Yazıyorsun? | amınake</title>
+    <meta name="description" content="Türkçe metinlerle ücretsiz klavye hızı testi. 30 ve 60 saniyelik modlarda WPM değerini ve yazma doğruluğunu ölç.">
+    <link rel="canonical" href="https://xn--amnake-q9a.com/oyunlar/yazma-hizi">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="amınake">
+    <meta property="og:title" content="Yazma Hızı Testi: Dakikada Kaç Kelime Yazıyorsun? | amınake">
+    <meta property="og:description" content="Türkçe metinlerle ücretsiz klavye hızı testi. 30 ve 60 saniyelik modlarda WPM değerini ve yazma doğruluğunu ölç.">
+    <meta property="og:url" content="https://xn--amnake-q9a.com/oyunlar/yazma-hizi">
+    <meta property="og:image" content="https://xn--amnake-q9a.com/vada.webp">
+    <meta name="theme-color" content="#100b17">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/site.css">
+    <style>
+        .yazma-sahne { padding: 1.4rem clamp(.9rem, 3vw, 1.6rem) 1.6rem; display: grid; gap: 1rem; }
+        #metin {
+            font-size: clamp(1.02rem, 2.6vw, 1.25rem); line-height: 2;
+            letter-spacing: .01em; color: var(--soluk); word-break: break-word;
+        }
+        #metin span.dogru { color: var(--yesil); }
+        #metin span.yanlis { color: #0d0913; background: var(--kirmizi); border-radius: 3px; }
+        #metin span.simdi { background: rgba(0, 240, 255, .25); border-radius: 3px; box-shadow: inset 2px 0 0 var(--cyan); }
+        #giris {
+            width: 100%; min-height: 6.5rem; resize: vertical;
+            font-family: var(--govde); font-size: 1.02rem; line-height: 1.6;
+            padding: .9rem 1rem; border-radius: 12px;
+            border: 1px solid var(--cizgi); background: #0d0913; color: var(--metin);
+        }
+        #giris:focus { outline: 2px solid var(--cyan); outline-offset: 2px; }
+        #giris:disabled { opacity: .45; }
+        .yazma-ust { display: flex; justify-content: center; margin-bottom: .8rem; }
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-18V4WVSKPM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-18V4WVSKPM');
+    </script>
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4795948929172388"
+     crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header class="ust-menu">
+        <a class="logo" href="/">AMINAKE</a>
+        <nav aria-label="Ana menü"><ul><li><a href="/">Buton</a></li><li><a href="/oyunlar" aria-current="page">Oyunlar</a></li><li><a href="/rehber">Rehber</a></li><li><a href="/hakkinda">Hakkında</a></li></ul></nav>
+    </header>
+
+    <main class="oyun-sayfa">
+        <nav class="yol" aria-label="Neredesin"><ol>
+            <li><a href="/">Ana sayfa</a></li><li><a href="/oyunlar">Oyunlar</a></li><li>Yazma Hızı Testi</li>
+        </ol></nav>
+
+        <div class="oyun-bas">
+            <div>
+                <h1>Yazma Hızı Testi</h1>
+                <p>Üstteki metni alttaki kutuya yaz. Süre ilk harfe bastığında başlar.</p>
+            </div>
+            <div class="skor-seridi">
+                <div class="skor"><small>Kalan süre</small><output id="kalan">60</output></div>
+                <div class="skor"><small>WPM</small><output id="wpm">0</output></div>
+                <div class="skor"><small>Doğruluk</small><output id="dogruluk">—</output></div>
+                <div class="skor rekor"><small>Rekorun</small><output id="rekor">—</output></div>
+            </div>
+        </div>
+
+        <div class="yazma-ust">
+            <div class="secenekler" role="group" aria-label="Süre seç">
+                <button type="button" data-sure="30" aria-pressed="false">30 saniye</button>
+                <button type="button" data-sure="60" aria-pressed="true">60 saniye</button>
+            </div>
+        </div>
+
+        <div class="sahne yazma-sahne">
+            <p id="metin"></p>
+            <textarea id="giris" rows="4" autocomplete="off" autocorrect="off" autocapitalize="off"
+                spellcheck="false" aria-label="Metni buraya yaz"></textarea>
+            <div class="durum" id="basla">
+                <h2>Yazma Hızı Testi</h2>
+                <p>Rastgele bir Türkçe paragraf gelecek. Olabildiğince hızlı ve hatasız yaz.</p>
+                <button class="dugme" id="baslat" type="button">Başla</button>
+                <button id="ses-dugmesi" class="dugme ikincil" type="button" style="padding:.45rem 1rem;font-size:.85rem"></button>
+            </div>
+            <div class="durum" id="sonuc" hidden>
+                <p class="buyuk" id="sonuc-wpm"></p>
+                <h2 id="sonuc-unvan"></h2>
+                <p id="sonuc-detay"></p>
+                <p class="yeni-rekor" id="sonuc-rekor" hidden>★ Yeni rekor ★</p>
+                <button class="dugme" id="tekrar" type="button">Tekrar dene</button>
+            </div>
+        </div>
+
+        <article class="oyun-rehber">
+            <h2>WPM nedir, nasıl hesaplanır?</h2>
+            <p>WPM, "words per minute" yani dakikada yazılan kelime sayısıdır. Kelimelerin uzunluğu değişken olduğu için dünyada kabul gören standart, beş karakteri bir kelime saymaktır. Bu testte de aynı yöntem kullanılır: doğru yazdığın karakter sayısı beşe bölünür, çıkan sonuç geçen süreye oranlanır. 60 saniyede 300 doğru karakter yazdıysan WPM değerin 60 olur.</p>
+            <p>Yanlış yazdığın harfler doğru karakter sayısına eklenmez. Yani hızlı ama hatalı yazmak WPM'ini yükseltmez, aksine düşürür. Doğruluk oranı ayrı bir kutuda gösterilir.</p>
+
+            <h2>Türkçe yazmak neden daha zor?</h2>
+            <p>Türkçe klavye testlerinde sonuçlar genelde İngilizce testlerden bir miktar düşük çıkar. Bunun birkaç nedeni var. Türkçe kelimeler eklerle uzar, ortalama kelime uzunluğu İngilizceden fazladır. Ayrıca ç, ğ, ı, ö, ş, ü harfleri Q klavyede parmakların doğal konumundan uzakta durur ve bu harflere her uzanışta ritim bozulur. Türkçe F klavye tam olarak bu sorunu çözmek için tasarlanmıştır.</p>
+
+            <h2>Hangi hız iyi sayılır?</h2>
+            <div class="tablo-kaydir">
+            <table class="olcek">
+                <caption>Türkçe metinde kabaca seviye karşılıkları</caption>
+                <thead><tr><th>WPM</th><th>Seviye</th><th>Açıklama</th></tr></thead>
+                <tbody>
+                    <tr><td>&lt; 25</td><td>Başlangıç</td><td>Çoğunlukla iki parmakla yazma</td></tr>
+                    <tr><td>25–40</td><td>Ortalama</td><td>Günlük kullanıcıların çoğu burada</td></tr>
+                    <tr><td>40–60</td><td>İyi</td><td>On parmağa geçiş yapmış kullanıcı</td></tr>
+                    <tr><td>60–80</td><td>Çok hızlı</td><td>Yazıyla iş yapanların seviyesi</td></tr>
+                    <tr><td>&gt; 80</td><td>Profesyonel</td><td>Deşifre ve veri giriş işlerinde aranan hız</td></tr>
+                </tbody>
+            </table>
+            </div>
+
+            <h2>Hızını artırmanın yolları</h2>
+            <h3>Ekrana bak, klavyeye değil</h3>
+            <p>Tuşlara bakarak yazmak hızın önündeki en büyük engeldir. İlk günlerde hata sayın artsa bile ellerine bakmamakta direnmek, iki hafta içinde kalıcı bir sıçrama sağlar.</p>
+            <h3>Doğruluğu hızın önüne koy</h3>
+            <p>Hata yapıp geri silmek, yavaş ve doğru yazmaktan daha fazla zaman kaybettirir. Önce %97 doğruluğu yakala, hız kendiliğinden gelir.</p>
+            <h3>Ritmi koru</h3>
+            <p>Hızlı yazanlar aslında ani patlamalar yapmaz; sabit bir tempoyu uzun süre sürdürür. Zor harflerde yavaşlayıp kolaylarında hızlanmak toplam süreyi uzatır.</p>
+            <h3>Parmak yerleşimini öğren</h3>
+            <p>Her parmağın sorumlu olduğu bir tuş sütunu vardır. Bunu baştan doğru öğrenmek, sonradan düzeltmekten çok daha kolaydır. Ayrıntılı anlatım için <a href="/rehber/on-parmak-yazma">on parmak yazma rehberine</a> bakabilirsin.</p>
+
+            <p>Yapıştırma kapalıdır ve rekorun sadece bu tarayıcıda saklanır. 30 ve 60 saniyelik modlar için ayrı rekor tutulur.</p>
+        </article>
+
+        <aside class="ilgili-rehber">
+            Sıfırdan on parmak yazmayı öğrenmek için: <a href="/rehber/on-parmak-yazma">On parmak yazma rehberi</a>
+        </aside>
+
+        <nav class="diger-oyunlar" aria-label="Diğer oyunlar">
+            <h2>Diğer oyunlar</h2>
+            <ul><li><a href="/oyunlar/cps-testi">CPS Testi</a></li><li><a href="/oyunlar/reaksiyon-testi">Reaksiyon Testi</a></li><li><a href="/oyunlar/aim-testi">Nişan Testi</a></li><li><a href="/oyunlar/ritim-hafizasi">Ritim Hafızası</a></li><li><a href="/oyunlar/hafiza-kartlari">Hafıza Kartları</a></li><li><a href="/oyunlar/renk-testi">Renk Ayırt Etme</a></li><li><a href="/oyunlar/vada-yakala">Vada Yakala</a></li><li><a href="/oyunlar/vada-zipla">Vada Zıpla</a></li><li><a href="/oyunlar/2048">2048</a></li></ul>
+        </nav>
+    </main>
+    <footer class="alt-bilgi">
+        <span>© 2026 Alpoflex &amp; Yako</span>
+        <nav aria-label="Alt menü">
+            <a href="/oyunlar">Oyunlar</a>
+            <a href="/rehber">Rehber</a>
+            <a href="/hakkinda">Hakkında</a>
+            <a href="/iletisim">İletişim</a>
+            <a href="/gizlilik">Gizlilik ve Çerezler</a>
+        </nav>
+    </footer>
+    <script type="module" src="/oyunlar/yazma-hizi.js"></script>
+</body>
+</html>

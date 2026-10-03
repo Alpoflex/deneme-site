@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nişan Testi (Aim Trainer): Hedef Vurma Hızını Ölç | amınake</title>
+    <meta name="description" content="Ücretsiz aim trainer. Rastgele çıkan hedefleri vur, hedef başına ortalama tepki süreni milisaniye cinsinden gör. 15, 30 ve 50 hedeflik modlar.">
+    <link rel="canonical" href="https://xn--amnake-q9a.com/oyunlar/aim-testi">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="amınake">
+    <meta property="og:title" content="Nişan Testi (Aim Trainer): Hedef Vurma Hızını Ölç | amınake">
+    <meta property="og:description" content="Ücretsiz aim trainer. Rastgele çıkan hedefleri vur, hedef başına ortalama tepki süreni milisaniye cinsinden gör. 15, 30 ve 50 hedeflik modlar.">
+    <meta property="og:url" content="https://xn--amnake-q9a.com/oyunlar/aim-testi">
+    <meta property="og:image" content="https://xn--amnake-q9a.com/vada.webp">
+    <meta name="theme-color" content="#100b17">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/site.css">
+    <style>
+        .aim-sahne { padding: 1rem; }
+        .aim-alan { position: relative; height: clamp(300px, 52vh, 460px); cursor: crosshair; }
+        #hedef {
+            position: absolute; width: clamp(40px, 10vw, 58px); aspect-ratio: 1;
+            border-radius: 50%; border: 0; padding: 0; cursor: crosshair;
+            background: radial-gradient(circle, #fff 0 18%, var(--yesil) 19% 42%, #0d0913 43% 56%, var(--yesil) 57% 100%);
+            box-shadow: 0 0 22px rgba(57, 255, 20, .55);
+            touch-action: manipulation;
+        }
+        #hedef.dogdu { animation: dog .14s ease-out; }
+        @keyframes dog { from { transform: scale(.4); opacity: .3; } }
+        .aim-alan.iska { animation: iska .22s; }
+        @keyframes iska { 50% { box-shadow: inset 0 0 60px rgba(255, 59, 107, .35); } }
+        .aim-ust { display: flex; justify-content: center; margin-bottom: .8rem; }
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-18V4WVSKPM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-18V4WVSKPM');
+    </script>
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4795948929172388"
+     crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header class="ust-menu">
+        <a class="logo" href="/">AMINAKE</a>
+        <nav aria-label="Ana menü"><ul><li><a href="/">Buton</a></li><li><a href="/oyunlar" aria-current="page">Oyunlar</a></li><li><a href="/rehber">Rehber</a></li><li><a href="/hakkinda">Hakkında</a></li></ul></nav>
+    </header>
+
+    <main class="oyun-sayfa">
+        <nav class="yol" aria-label="Neredesin"><ol>
+            <li><a href="/">Ana sayfa</a></li><li><a href="/oyunlar">Oyunlar</a></li><li>Nişan Testi</li>
+        </ol></nav>
+
+        <div class="oyun-bas">
+            <div>
+                <h1>Nişan Testi</h1>
+                <p>Ekranda beliren hedefi mümkün olduğunca çabuk vur. Boşluğa basarsan ıska sayılır.</p>
+            </div>
+            <div class="skor-seridi">
+                <div class="skor"><small>Kalan hedef</small><output id="kalan">30</output></div>
+                <div class="skor"><small>Ortalama</small><output id="ortalama">—</output></div>
+                <div class="skor rekor"><small>Rekorun</small><output id="rekor">—</output></div>
+            </div>
+        </div>
+
+        <div class="aim-ust">
+            <div class="secenekler" role="group" aria-label="Hedef sayısı seç">
+                <button type="button" data-adet="15" aria-pressed="false">15 hedef</button>
+                <button type="button" data-adet="30" aria-pressed="true">30 hedef</button>
+                <button type="button" data-adet="50" aria-pressed="false">50 hedef</button>
+            </div>
+        </div>
+
+        <div class="sahne aim-sahne">
+            <div class="aim-alan" id="alan">
+                <button id="hedef" type="button" hidden aria-label="Hedefi vur"></button>
+            </div>
+            <div class="durum" id="basla">
+                <h2>Nişan Testi</h2>
+                <p>Hedefler rastgele yerlerde belirir. Her hedefi vurman ne kadar sürüyor, ölçelim.</p>
+                <button class="dugme" id="baslat" type="button">Başla</button>
+                <button id="ses-dugmesi" class="dugme ikincil" type="button" style="padding:.45rem 1rem;font-size:.85rem"></button>
+            </div>
+            <div class="durum" id="sonuc" hidden>
+                <p class="buyuk" id="sonuc-ms"></p>
+                <h2 id="sonuc-unvan"></h2>
+                <p id="sonuc-detay"></p>
+                <p class="yeni-rekor" id="sonuc-rekor" hidden>★ Yeni rekor ★</p>
+                <button class="dugme" id="tekrar" type="button">Tekrar dene</button>
+            </div>
+        </div>
+
+        <article class="oyun-rehber">
+            <h2>Aim trainer nedir?</h2>
+            <p>Aim trainer, nişan alma becerisini ölçen ve geliştiren bir alıştırma aracıdır. Nişancılık gerektiren oyunlarda bir rakibi vurmak iki şeye bağlıdır: hedefi görüp karar verme süren ve imleci oraya götürme hassasiyetin. Bu test ikisini birlikte ölçer. Hedef ekranda belirdiği andan onu vurduğun ana kadar geçen süre kaydedilir, testin sonunda bu sürelerin ortalaması gösterilir.</p>
+
+            <h2>Sonucun ne anlama geliyor?</h2>
+            <p>Buradaki süre saf refleks süresi değildir; imleci hedefe taşıma süresini de içerir. Bu yüzden değerler <a href="/oyunlar/reaksiyon-testi">reaksiyon testindeki</a> rakamlardan belirgin şekilde yüksek çıkar. Kaba bir ölçek şöyle:</p>
+            <div class="tablo-kaydir">
+            <table class="olcek">
+                <caption>Hedef başına ortalama süre</caption>
+                <thead><tr><th>Süre</th><th>Seviye</th><th>Açıklama</th></tr></thead>
+                <tbody>
+                    <tr><td>&lt; 380 ms</td><td>Keskin nişancı</td><td>Düzenli antrenman yapan oyuncu seviyesi</td></tr>
+                    <tr><td>380–480 ms</td><td>Çok hızlı</td><td>Nişancılık oyunlarına aşina</td></tr>
+                    <tr><td>480–600 ms</td><td>İyi</td><td>Ortalamanın üzerinde</td></tr>
+                    <tr><td>600–780 ms</td><td>Ortalama</td><td>Çoğu oyuncunun ilk denemesi</td></tr>
+                    <tr><td>&gt; 780 ms</td><td>Isınma gerekli</td><td>Birkaç tur sonra düzelir</td></tr>
+                </tbody>
+            </table>
+            </div>
+
+            <h2>Nasıl daha iyi olunur?</h2>
+            <h3>Fare hassasiyetini sabitle</h3>
+            <p>En sık yapılan hata hassasiyeti sürekli değiştirmektir. Kas hafızası ancak aynı ayarla tekrar ettiğinde oluşur. Bir değer seç ve en az birkaç hafta değiştirme. Düşük hassasiyette kolunu, yüksek hassasiyette bileğini kullanırsın; ikisinin ortasında bir yer çoğu kişi için iyi çalışır.</p>
+            <h3>Hedefin merkezine değil, geleceğine bak</h3>
+            <p>Gözünü hedefin tam ortasına kilitlemek yerine imleci hedefin bulunduğu bölgeye hızla götürüp son düzeltmeyi küçük bir hareketle yapmak daha hızlı sonuç verir. Buna "kaba hareket + ince ayar" denir.</p>
+            <h3>Isın, sonra ölç</h3>
+            <p>İlk tur neredeyse her zaman en kötü turdur. Ölçüm almadan önce 15 hedeflik bir tur yapıp ısınmak ortalamayı belirgin şekilde düşürür.</p>
+            <h3>Oturuşunu düzelt</h3>
+            <p>Dirseğin masaya dayalı değilse kolun havada titrer ve ince ayar zorlaşır. Masa yüksekliğini kolun yatay duracağı şekilde ayarlamak, pahalı bir fareden daha çok fark yaratır.</p>
+
+            <h2>Telefonda oynanır mı?</h2>
+            <p>Evet. Dokunmatik ekranda parmağını hedefe götürmek fareden farklı bir beceridir ve genelde biraz daha hızlı sonuç verir, çünkü imleci taşıman gerekmez. Ancak ıska oranın yükselir. Telefon ve bilgisayar sonuçlarını birbiriyle karşılaştırmamak daha doğru olur.</p>
+
+            <p>Rekorun sadece bu tarayıcıda saklanır ve her hedef sayısı için ayrı tutulur.</p>
+        </article>
+
+        <aside class="ilgili-rehber">
+            Nişan alma becerisini sistemli çalıştırmak istersen: <a href="/rehber/aim-antrenmani">Aim antrenmanı rehberi</a>
+        </aside>
+
+        <nav class="diger-oyunlar" aria-label="Diğer oyunlar">
+            <h2>Diğer oyunlar</h2>
+            <ul><li><a href="/oyunlar/cps-testi">CPS Testi</a></li><li><a href="/oyunlar/reaksiyon-testi">Reaksiyon Testi</a></li><li><a href="/oyunlar/yazma-hizi">Yazma Hızı Testi</a></li><li><a href="/oyunlar/ritim-hafizasi">Ritim Hafızası</a></li><li><a href="/oyunlar/hafiza-kartlari">Hafıza Kartları</a></li><li><a href="/oyunlar/renk-testi">Renk Ayırt Etme</a></li><li><a href="/oyunlar/vada-yakala">Vada Yakala</a></li><li><a href="/oyunlar/vada-zipla">Vada Zıpla</a></li><li><a href="/oyunlar/2048">2048</a></li></ul>
+        </nav>
+    </main>
+    <footer class="alt-bilgi">
+        <span>© 2026 Alpoflex &amp; Yako</span>
+        <nav aria-label="Alt menü">
+            <a href="/oyunlar">Oyunlar</a>
+            <a href="/rehber">Rehber</a>
+            <a href="/hakkinda">Hakkında</a>
+            <a href="/iletisim">İletişim</a>
+            <a href="/gizlilik">Gizlilik ve Çerezler</a>
+        </nav>
+    </footer>
+    <script type="module" src="/oyunlar/aim-testi.js"></script>
+</body>
+</html>

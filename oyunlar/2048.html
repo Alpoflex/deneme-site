@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2048 Oyna: Klasik Sayı Birleştirme Oyunu | amınake</title>
+    <meta name="description" content="2048 oyununu ücretsiz oyna. Aynı sayıları birleştir, 2048 taşına ulaş. Klavye okları ve dokunmatik kaydırma destekli.">
+    <link rel="canonical" href="https://xn--amnake-q9a.com/oyunlar/2048">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="amınake">
+    <meta property="og:title" content="2048 Oyna: Klasik Sayı Birleştirme Oyunu | amınake">
+    <meta property="og:description" content="2048 oyununu ücretsiz oyna. Aynı sayıları birleştir, 2048 taşına ulaş. Klavye okları ve dokunmatik kaydırma destekli.">
+    <meta property="og:url" content="https://xn--amnake-q9a.com/oyunlar/2048">
+    <meta property="og:image" content="https://xn--amnake-q9a.com/vada.webp">
+    <meta name="theme-color" content="#100b17">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/site.css">
+    <style>
+        .s2048-sahne { padding: 1.3rem clamp(.8rem, 3vw, 1.6rem) 1.6rem; display: grid; place-items: center; gap: 1.1rem; }
+        #tahta {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(.4rem, 1.6vw, .65rem);
+            width: min(100%, 25rem); aspect-ratio: 1; padding: clamp(.4rem, 1.6vw, .65rem);
+            background: rgba(13, 9, 19, .6); border-radius: 14px; touch-action: none;
+        }
+        .tas {
+            display: grid; place-content: center; border-radius: 10px;
+            font-family: var(--baslik); font-weight: 900;
+            font-size: clamp(.9rem, 4.6vw, 1.5rem);
+            background: rgba(155, 81, 224, .08); color: #0d0913;
+        }
+        .tas.bos { background: rgba(155, 81, 224, .07); }
+        .tas.yeni { animation: tasDog .16s ease-out; }
+        @keyframes tasDog { from { transform: scale(.3); opacity: .2; } }
+        .d2    { background: #3a2f4a; color: #e8dcf7; }
+        .d4    { background: #4a3a63; color: #e8dcf7; }
+        .d8    { background: #6c3fb0; color: #fff; }
+        .d16   { background: #8440d8; color: #fff; }
+        .d32   { background: #9b51e0; color: #fff; }
+        .d64   { background: #ad4ce0; color: #fff; }
+        .d128  { background: #d64d9c; color: #fff; font-size: clamp(.8rem, 4.1vw, 1.35rem); }
+        .d256  { background: #ff3b6b; color: #fff; font-size: clamp(.8rem, 4.1vw, 1.35rem); }
+        .d512  { background: #ff7a3d; color: #1a1326; font-size: clamp(.8rem, 4.1vw, 1.35rem); }
+        .d1024 { background: #ffd700; color: #1a1326; font-size: clamp(.7rem, 3.5vw, 1.15rem); }
+        .d2048 { background: var(--yesil); color: #0d0913; font-size: clamp(.7rem, 3.5vw, 1.15rem); box-shadow: 0 0 26px rgba(57,255,20,.55); }
+        .d4096, .d8192 { background: var(--cyan); color: #0d0913; font-size: clamp(.7rem, 3.5vw, 1.15rem); }
+
+        .yon-tuslari { display: grid; grid-template-columns: repeat(3, 3.2rem); gap: .4rem; justify-content: center; }
+        .yon-tuslari button {
+            aspect-ratio: 1; border-radius: 10px; border: 1px solid var(--cizgi);
+            background: var(--yuzey); color: var(--metin); font-size: 1.1rem; cursor: pointer;
+        }
+        .yon-tuslari button:hover { border-color: var(--mor); background: var(--yuzey-2); }
+        .yon-tuslari .bosluk { visibility: hidden; }
+        @media (min-width: 720px) { .yon-tuslari { display: none; } }
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-18V4WVSKPM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-18V4WVSKPM');
+    </script>
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4795948929172388"
+     crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header class="ust-menu">
+        <a class="logo" href="/">AMINAKE</a>
+        <nav aria-label="Ana menü"><ul><li><a href="/">Buton</a></li><li><a href="/oyunlar" aria-current="page">Oyunlar</a></li><li><a href="/rehber">Rehber</a></li><li><a href="/hakkinda">Hakkında</a></li></ul></nav>
+    </header>
+
+    <main class="oyun-sayfa">
+        <nav class="yol" aria-label="Neredesin"><ol>
+            <li><a href="/">Ana sayfa</a></li><li><a href="/oyunlar">Oyunlar</a></li><li>2048</li>
+        </ol></nav>
+
+        <div class="oyun-bas">
+            <div>
+                <h1>2048</h1>
+                <p>Yön tuşlarıyla kaydır, aynı sayıları birleştir. Telefonda parmağınla kaydır.</p>
+            </div>
+            <div class="skor-seridi">
+                <div class="skor"><small>Puan</small><output id="skor">0</output></div>
+                <div class="skor"><small>En büyük taş</small><output id="entas">—</output></div>
+                <div class="skor rekor"><small>Rekorun</small><output id="eniyi">0</output></div>
+            </div>
+        </div>
+
+        <div class="sahne s2048-sahne">
+            <div id="tahta" role="grid" aria-label="2048 tahtası"></div>
+            <div class="yon-tuslari" role="group" aria-label="Yön tuşları">
+                <span class="bosluk"></span>
+                <button type="button" data-yon="yukari" aria-label="Yukarı">▲</button>
+                <span class="bosluk"></span>
+                <button type="button" data-yon="sol" aria-label="Sol">◀</button>
+                <button type="button" data-yon="asagi" aria-label="Aşağı">▼</button>
+                <button type="button" data-yon="sag" aria-label="Sağ">▶</button>
+            </div>
+            <div style="display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center">
+                <button class="dugme ikincil" id="yeni" type="button" style="padding:.45rem 1rem;font-size:.85rem">Yeni oyun</button>
+                <button id="ses-dugmesi" class="dugme ikincil" type="button" style="padding:.45rem 1rem;font-size:.85rem"></button>
+            </div>
+            <div class="durum" id="sonuc" hidden>
+                <h2 id="sonuc-baslik"></h2>
+                <p class="buyuk" id="sonuc-skor"></p>
+                <p id="sonuc-unvan"></p>
+                <p id="sonuc-detay"></p>
+                <p class="yeni-rekor" id="sonuc-rekor" hidden>★ Yeni rekor ★</p>
+                <div class="secenekler">
+                    <button class="dugme" id="tekrar" type="button">Yeni oyun</button>
+                    <button class="dugme ikincil" id="devam" type="button" hidden>Devam et</button>
+                </div>
+            </div>
+        </div>
+
+        <article class="oyun-rehber">
+            <h2>2048 nasıl oynanır?</h2>
+            <p>Tahta dört satır ve dört sütundan oluşur. Her hamlede bütün taşlar seçtiğin yöne doğru kayar. Yan yana gelen aynı değerdeki iki taş birleşip değerlerinin toplamını oluşturur: iki tane 2, bir tane 4 olur. Her geçerli hamleden sonra boş bir kareye yeni bir taş düşer; bu taş yüksek ihtimalle 2, küçük bir ihtimalle 4 değerindedir. Amaç 2048 değerindeki taşa ulaşmaktır. Tahta dolduğunda ve yapılabilecek hiçbir birleştirme kalmadığında oyun biter.</p>
+            <p>Bilgisayarda yön tuşlarını veya W, A, S, D tuşlarını kullanabilirsin. Telefonda tahtanın üzerinde parmağını kaydırman yeterli; istersen ekrandaki yön tuşlarına da basabilirsin.</p>
+
+            <h2>Kazandıran strateji: bir köşe seç</h2>
+            <p>2048'in en bilinen ve en işe yarayan taktiği, en büyük taşı sabit bir köşede tutmaktır. Diyelim sol alt köşeyi seçtin. Bundan sonra sadece sol, aşağı ve yer yer sağ hamlelerini kullan; <strong>yukarı hamlesinden mümkün olduğunca kaçın</strong>. Yukarı bastığın anda büyük taşın köşeden kalkar ve tahtanın ortasında sıkışıp kalır. Bu tek kural bile ortalama skorunu kat kat artırır.</p>
+
+            <h2>Merdiven düzeni</h2>
+            <p>Köşe kuralının bir üst seviyesi, en alt satırı büyükten küçüğe sıralı tutmaktır: köşede 512, yanında 256, sonra 128, sonra 64 gibi. Bu düzen kurulduğunda satırı tek bir hamleyle zincirleme birleştirebilirsin. Üst satırları ise küçük taşların toplandığı bir çalışma alanı gibi kullan.</p>
+
+            <div class="bilgi-kutu">
+                <strong>Kısa kural listesi</strong>
+                <ul>
+                    <li>En büyük taş hep aynı köşede kalsın.</li>
+                    <li>Köşenin bulunduğu satırı veya sütunu asla boşaltma.</li>
+                    <li>Birleştirebileceğin bir hamle varken boşa kaydırma yapma.</li>
+                    <li>Tahta yarıdan fazla dolduğunda birkaç hamle ileriyi düşün.</li>
+                    <li>Panikleyip rastgele hamle yapmak oyunu bitiren en yaygın hatadır.</li>
+                </ul>
+            </div>
+
+            <h2>Puan nasıl hesaplanıyor?</h2>
+            <p>Puan, yaptığın birleştirmelerden gelir. İki taşı birleştirdiğinde oluşan yeni taşın değeri puanına eklenir. Yani iki 128'i birleştirip 256 yaptığında 256 puan kazanırsın. Bu yüzden yüksek puan, büyük taşlar üretmekle doğrudan ilgilidir. 2048'e ulaşan bir oyunda puan genelde 20.000 civarındadır.</p>
+
+            <h2>Sık sorulanlar</h2>
+            <h3>2048'den sonra devam edebilir miyim?</h3>
+            <p>Evet. 2048 taşını yaptığında bir tebrik ekranı gelir ama "Devam et" ile oynamayı sürdürebilirsin. 4096 ve 8192 taşları için tahtada renk karşılıkları hazır.</p>
+            <h3>Oyun gerçekten rastgele mi?</h3>
+            <p>Yeni taşın nereye düşeceği rastgeledir, değeri ise yüzde doksan ihtimalle 2, yüzde on ihtimalle 4'tür. Yani şans bir miktar etkili, ama uzun vadede skorun neredeyse tamamen stratejine bağlıdır.</p>
+            <h3>Rekorum nerede saklanıyor?</h3>
+            <p>En iyi puanın sadece bu tarayıcının yerel depolamasında tutulur, sunucuya gönderilmez. Tarayıcı verilerini silersen sıfırlanır.</p>
+        </article>
+
+        <nav class="diger-oyunlar" aria-label="Diğer oyunlar">
+            <h2>Diğer oyunlar</h2>
+            <ul><li><a href="/oyunlar/cps-testi">CPS Testi</a></li><li><a href="/oyunlar/reaksiyon-testi">Reaksiyon Testi</a></li><li><a href="/oyunlar/aim-testi">Nişan Testi</a></li><li><a href="/oyunlar/yazma-hizi">Yazma Hızı Testi</a></li><li><a href="/oyunlar/ritim-hafizasi">Ritim Hafızası</a></li><li><a href="/oyunlar/hafiza-kartlari">Hafıza Kartları</a></li><li><a href="/oyunlar/renk-testi">Renk Ayırt Etme</a></li><li><a href="/oyunlar/vada-yakala">Vada Yakala</a></li><li><a href="/oyunlar/vada-zipla">Vada Zıpla</a></li></ul>
+        </nav>
+    </main>
+    <footer class="alt-bilgi">
+        <span>© 2026 Alpoflex &amp; Yako</span>
+        <nav aria-label="Alt menü">
+            <a href="/oyunlar">Oyunlar</a>
+            <a href="/rehber">Rehber</a>
+            <a href="/hakkinda">Hakkında</a>
+            <a href="/iletisim">İletişim</a>
+            <a href="/gizlilik">Gizlilik ve Çerezler</a>
+        </nav>
+    </footer>
+    <script type="module" src="/oyunlar/sayi-2048.js"></script>
+</body>
+</html>

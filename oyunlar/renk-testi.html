@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renk Ayırt Etme Testi: Farklı Tonu Bulabilir misin? | amınake</title>
+    <meta name="description" content="Gözünün renk hassasiyetini ölç. Izgaradaki farklı tondaki kareyi bul, her seviyede fark biraz daha küçülsün. 60 saniyen var.">
+    <link rel="canonical" href="https://xn--amnake-q9a.com/oyunlar/renk-testi">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="amınake">
+    <meta property="og:title" content="Renk Ayırt Etme Testi: Farklı Tonu Bulabilir misin? | amınake">
+    <meta property="og:description" content="Gözünün renk hassasiyetini ölç. Izgaradaki farklı tondaki kareyi bul, her seviyede fark biraz daha küçülsün. 60 saniyen var.">
+    <meta property="og:url" content="https://xn--amnake-q9a.com/oyunlar/renk-testi">
+    <meta property="og:image" content="https://xn--amnake-q9a.com/vada.webp">
+    <meta name="theme-color" content="#100b17">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/site.css">
+    <style>
+        .renk-sahne { padding: 1.4rem clamp(.8rem, 3vw, 1.6rem) 1.8rem; display: grid; place-items: center; }
+        #izgara {
+            display: grid; gap: clamp(.3rem, 1.2vw, .55rem);
+            grid-template-columns: repeat(var(--kenar, 3), 1fr);
+            width: min(100%, 23rem); aspect-ratio: 1;
+        }
+        .kare {
+            border: 0; padding: 0; border-radius: 9px; cursor: pointer;
+            transition: transform .1s; touch-action: manipulation;
+        }
+        .kare:hover { transform: scale(1.04); }
+        .kare:active { transform: scale(.95); }
+        .kare.yanlis { animation: salla .3s; }
+        @keyframes salla { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-18V4WVSKPM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-18V4WVSKPM');
+    </script>
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4795948929172388"
+     crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header class="ust-menu">
+        <a class="logo" href="/">AMINAKE</a>
+        <nav aria-label="Ana menü"><ul><li><a href="/">Buton</a></li><li><a href="/oyunlar" aria-current="page">Oyunlar</a></li><li><a href="/rehber">Rehber</a></li><li><a href="/hakkinda">Hakkında</a></li></ul></nav>
+    </header>
+
+    <main class="oyun-sayfa">
+        <nav class="yol" aria-label="Neredesin"><ol>
+            <li><a href="/">Ana sayfa</a></li><li><a href="/oyunlar">Oyunlar</a></li><li>Renk Ayırt Etme</li>
+        </ol></nav>
+
+        <div class="oyun-bas">
+            <div>
+                <h1>Renk Ayırt Etme</h1>
+                <p>Izgaradaki karelerden biri diğerlerinden farklı tonda. Onu bul.</p>
+            </div>
+            <div class="skor-seridi">
+                <div class="skor"><small>Seviye</small><output id="seviye">1</output></div>
+                <div class="skor"><small>Kalan süre</small><output id="kalan">60</output></div>
+                <div class="skor"><small>Ton farkı</small><output id="fark">—</output></div>
+                <div class="skor rekor"><small>Rekorun</small><output id="rekor">—</output></div>
+            </div>
+        </div>
+
+        <div class="sahne renk-sahne">
+            <div id="izgara" role="group" aria-label="Renk ızgarası"></div>
+            <div class="durum" id="basla">
+                <h2>Renk Ayırt Etme</h2>
+                <p>60 saniyen var. Her doğru seçimde ızgara büyür ve ton farkı küçülür. Yanlış seçim 3 saniye götürür.</p>
+                <button class="dugme" id="baslat" type="button">Başla</button>
+                <button id="ses-dugmesi" class="dugme ikincil" type="button" style="padding:.45rem 1rem;font-size:.85rem"></button>
+            </div>
+            <div class="durum" id="sonuc" hidden>
+                <p class="buyuk" id="sonuc-seviye"></p>
+                <h2 id="sonuc-unvan"></h2>
+                <p id="sonuc-detay"></p>
+                <p class="yeni-rekor" id="sonuc-rekor" hidden>★ Yeni rekor ★</p>
+                <button class="dugme" id="tekrar" type="button">Tekrar dene</button>
+            </div>
+        </div>
+
+        <article class="oyun-rehber">
+            <h2>Bu test neyi ölçüyor?</h2>
+            <p>Test, birbirine çok yakın iki rengi birbirinden ayırabilme yeteneğini ölçer. Her seviyede ızgaradaki karelerden biri diğerlerinden biraz daha açık ya da koyu tondadır. Seviye yükseldikçe iki ton arasındaki fark kademeli olarak küçülür ve ızgaradaki kare sayısı artar. Ekranın üstündeki "ton farkı" kutusu, o anda aradığın farkın yüzde kaç olduğunu gösterir.</p>
+            <p>Bu bir renk körlüğü teşhisi değildir. Renk körlüğü belirli renk çiftlerini (çoğunlukla kırmızı-yeşil) ayırt edememe durumudur ve Ishihara tabloları gibi özel testlerle ölçülür. Buradaki test ise aynı rengin farklı tonlarını ayırt etme hassasiyetine bakar; renk körü olmayan iki kişi arasında bile ciddi fark çıkabilir.</p>
+
+            <h2>Sonucunu etkileyen şeyler</h2>
+            <h3>Ekran kalitesi</h3>
+            <p>En büyük etken ekranındır. Ucuz bir TN panelde yakın tonlar birbirine karışır, iyi bir IPS veya OLED ekranda aynı fark rahatça görünür. Telefonda genelde bilgisayardan daha yüksek seviyelere çıkılır.</p>
+            <h3>Parlaklık ayarı</h3>
+            <p>Ekran parlaklığı çok düşükse koyu tonlar birbirine yapışır, çok yüksekse açık tonlar beyazlaşır. Orta bir parlaklık en iyi sonucu verir.</p>
+            <h3>Ortam ışığı</h3>
+            <p>Doğrudan güneş alan bir odada ya da zifiri karanlıkta gözün kontrast algısı düşer. Dengeli aydınlatılmış bir ortamda test etmek daha gerçekçi bir sonuç verir.</p>
+            <h3>Yaş ve yorgunluk</h3>
+            <p>Renk ayırt etme hassasiyeti yaşla birlikte yavaşça azalır. Ayrıca uzun süre ekrana baktıktan sonra göz yorulur ve yakın tonları ayırmak zorlaşır. Aynı testi sabah ve gece yaptığında farklı sonuçlar alman normaldir.</p>
+
+            <h2>Daha yükseğe çıkmanın yolları</h2>
+            <ul>
+                <li>Izgaraya tek tek bakmak yerine gözünü biraz kısıp bütüne bak. Farklı kare çoğu zaman bir "leke" gibi öne çıkar.</li>
+                <li>Ekranı hafifçe yana eğmek, bazı panellerde farkı belirginleştirir.</li>
+                <li>Emin olmadığında tahmin etmek yerine bir saniye daha bak. Yanlış seçim üç saniye götürür, düşünmek ise sadece bir saniye.</li>
+                <li>Gece modu, mavi ışık filtresi gibi renk sıcaklığını değiştiren özellikleri kapat. Bunlar tonları bozar.</li>
+            </ul>
+
+            <h2>Puanlama nasıl işliyor?</h2>
+            <p>Süre 60 saniyedir ve her yanlış seçim üç saniye düşürür. Skorun, süre bitene kadar ulaştığın seviyedir. 16. seviyenin üzeri iyi, 22'nin üzeri çok iyi sayılır. 28 ve üzerine çıkmak hem keskin bir göz hem de kaliteli bir ekran gerektirir.</p>
+
+            <p>Rekorun sadece bu tarayıcıda saklanır.</p>
+        </article>
+
+        <nav class="diger-oyunlar" aria-label="Diğer oyunlar">
+            <h2>Diğer oyunlar</h2>
+            <ul><li><a href="/oyunlar/cps-testi">CPS Testi</a></li><li><a href="/oyunlar/reaksiyon-testi">Reaksiyon Testi</a></li><li><a href="/oyunlar/aim-testi">Nişan Testi</a></li><li><a href="/oyunlar/yazma-hizi">Yazma Hızı Testi</a></li><li><a href="/oyunlar/ritim-hafizasi">Ritim Hafızası</a></li><li><a href="/oyunlar/hafiza-kartlari">Hafıza Kartları</a></li><li><a href="/oyunlar/vada-yakala">Vada Yakala</a></li><li><a href="/oyunlar/vada-zipla">Vada Zıpla</a></li><li><a href="/oyunlar/2048">2048</a></li></ul>
+        </nav>
+    </main>
+    <footer class="alt-bilgi">
+        <span>© 2026 Alpoflex &amp; Yako</span>
+        <nav aria-label="Alt menü">
+            <a href="/oyunlar">Oyunlar</a>
+            <a href="/rehber">Rehber</a>
+            <a href="/hakkinda">Hakkında</a>
+            <a href="/iletisim">İletişim</a>
+            <a href="/gizlilik">Gizlilik ve Çerezler</a>
+        </nav>
+    </footer>
+    <script type="module" src="/oyunlar/renk-testi.js"></script>
+</body>
+</html>
