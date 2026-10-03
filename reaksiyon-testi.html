@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reaksiyon Testi: Refleksin Kaç Milisaniye? | amınake</title>
+    <meta name="description" content="Online reaksiyon süresi testi. Ekran yeşile döndüğünde bas, 5 turluk ortalamanı milisaniye cinsinden öğren.">
+    <link rel="canonical" href="https://xn--amnake-q9a.com/oyunlar/reaksiyon-testi">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="amınake">
+    <meta property="og:title" content="Reaksiyon Testi: Refleksin Kaç Milisaniye? | amınake">
+    <meta property="og:description" content="Online reaksiyon süresi testi. Ekran yeşile döndüğünde bas, 5 turluk ortalamanı milisaniye cinsinden öğren.">
+    <meta property="og:url" content="https://xn--amnake-q9a.com/oyunlar/reaksiyon-testi">
+    <meta property="og:image" content="https://xn--amnake-q9a.com/vada.webp">
+    <meta name="theme-color" content="#100b17">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/site.css">
+    <style>
+        #alan {
+            min-height: clamp(260px, 50vh, 420px); display: grid; place-content: center; text-align: center;
+            gap: .6rem; padding: 2rem; cursor: pointer; transition: background .08s;
+        }
+        #alan-baslik { font-family: var(--baslik); font-size: clamp(1.6rem, 6vw, 3rem); font-weight: 900; }
+        #alan-aciklama { color: var(--soluk); max-width: 30rem; }
+        #alan[data-durum="bekle"] { background: #5a1028; }
+        #alan[data-durum="bekle"] #alan-aciklama { color: #ffd0dc; }
+        #alan[data-durum="simdi"] { background: #1b8a22; }
+        #alan[data-durum="erken"] { background: #3a2a10; }
+        #alan[data-durum="sonuc"] #alan-baslik, #alan[data-durum="bitti"] #alan-baslik { font-family: var(--piksel); color: var(--cyan); font-size: clamp(1.3rem, 5vw, 2.2rem); line-height: 1.4; }
+        .tur-listesi { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; align-items: center; }
+        #sureler { list-style: none; display: flex; gap: .5rem; flex-wrap: wrap; color: var(--soluk); font-size: .9rem; }
+        #sureler li { padding: .2rem .7rem; border: 1px solid var(--cizgi); border-radius: 999px; }
+    </style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-18V4WVSKPM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-18V4WVSKPM');
+    </script>
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4795948929172388"
+     crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header class="ust-menu">
+        <a class="logo" href="/">AMINAKE</a>
+        <nav aria-label="Ana menü"><ul><li><a href="/">Buton</a></li><li><a href="/oyunlar" aria-current="page">Oyunlar</a></li><li><a href="/hakkinda">Hakkında</a></li></ul></nav>
+    </header>
+
+    <main class="oyun-sayfa">
+        <div class="oyun-bas">
+            <div>
+                <h1>Reaksiyon Testi</h1>
+                <p>Kırmızı ekranda bekle, yeşile döndüğü an bas. 5 turun ortalaması hesaplanır.</p>
+            </div>
+            <div class="skor-seridi">
+                <div class="skor"><small>Tur</small><output id="tur">0/5</output></div>
+                <div class="skor"><small>Son süre</small><output id="son">—</output></div>
+                <div class="skor rekor"><small>En iyi ortalama</small><output id="rekor">—</output></div>
+            </div>
+        </div>
+
+        <div class="sahne" id="alan" tabindex="0" role="button" aria-live="polite" data-durum="hazir">
+            <p id="alan-baslik"></p>
+            <p id="alan-aciklama"></p>
+        </div>
+        <div class="tur-listesi">
+            <ol id="sureler" aria-label="Tur süreleri"></ol>
+            <button id="ses-dugmesi" class="dugme ikincil" type="button" style="padding:.45rem 1rem;font-size:.85rem"></button>
+        </div>
+
+        <article class="oyun-rehber">
+            <h2>Reaksiyon süresi nedir?</h2>
+            <p>Reaksiyon süresi, bir uyarıyı fark ettiğin an ile buna tepki verdiğin an arasında geçen zamandır. Bu testte uyarı ekranın yeşile dönmesi, tepki ise dokunman ya da tıklamandır. Ölçüm milisaniye (ms) cinsindendir; 1000 ms bir saniyeye eşittir.</p>
+
+            <h2>Sonucum iyi mi?</h2>
+            <p>Görsel bir uyarıya ortalama insan tepkisi 250 ms civarındadır. 200 ms'nin altı çok hızlı kabul edilir ve genellikle düzenli oyun oynayan ya da refleks gerektiren sporlarla uğraşan kişilerde görülür. 300 ms'nin üzerindeki sonuçlar çoğunlukla yorgunluk, dikkat dağınıklığı veya cihaz gecikmesinden kaynaklanır.</p>
+
+            <h2>Sonucu etkileyen şeyler</h2>
+            <ul>
+                <li><strong>Cihaz:</strong> Ekranın yenileme hızı ve dokunmatik ekranın gecikmesi sonuca 10–50 ms ekleyebilir. Yüksek yenileme hızlı bir monitör ve kablolu mouse en düşük gecikmeyi verir.</li>
+                <li><strong>Yorgunluk ve uyku:</strong> Uykusuzluk tepki süresini belirgin şekilde uzatır.</li>
+                <li><strong>Kafein ve ısınma:</strong> Birkaç deneme turu yapmak genelde sonucu iyileştirir.</li>
+                <li><strong>Tahmin etmek:</strong> Bekleme süresi her turda rastgele değişir. Yeşili tahmin edip erken basarsan o tur sayılmaz.</li>
+            </ul>
+
+            <h2>Neden 5 tur?</h2>
+            <p>Tek bir ölçüm şansa çok açıktır. Beş turun ortalaması, gerçek tepki hızını çok daha güvenilir şekilde gösterir. En iyi ortalaman bu tarayıcıda saklanır, böylece zamanla gelişimini takip edebilirsin.</p>
+        </article>
+        
+        <nav class="diger-oyunlar" aria-label="Diğer oyunlar">
+            <h2>Diğer oyunlar</h2>
+            <ul><li><a href="/oyunlar/cps-testi">CPS Testi</a></li><li><a href="/oyunlar/vada-yakala">Vada Yakala</a></li><li><a href="/oyunlar/ritim-hafizasi">Ritim Hafızası</a></li><li><a href="/oyunlar/vada-zipla">Vada Zıpla</a></li></ul>
+        </nav>
+    </main>
+    <footer class="alt-bilgi">
+        <span>© 2026 Alpoflex &amp; Yako</span>
+        <nav aria-label="Alt menü">
+            <a href="/oyunlar">Oyunlar</a>
+            <a href="/hakkinda">Hakkında</a>
+            <a href="/iletisim">İletişim</a>
+            <a href="/gizlilik">Gizlilik ve Çerezler</a>
+        </nav>
+    </footer>
+    <script type="module" src="/oyunlar/reaksiyon-testi.js"></script>
+</body>
+</html>

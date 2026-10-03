@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vada Yakala: Online Refleks Oyunu | amınake</title>
+    <meta name="description" content="Deliklerden çıkan Vada'ları 30 saniyede yakala, bombalardan kaç. Tarayıcıda ücretsiz oynanan hızlı refleks oyunu.">
+    <link rel="canonical" href="https://xn--amnake-q9a.com/oyunlar/vada-yakala">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="amınake">
+    <meta property="og:title" content="Vada Yakala: Online Refleks Oyunu | amınake">
+    <meta property="og:description" content="Deliklerden çıkan Vada'ları 30 saniyede yakala, bombalardan kaç. Tarayıcıda ücretsiz oynanan hızlı refleks oyunu.">
+    <meta property="og:url" content="https://xn--amnake-q9a.com/oyunlar/vada-yakala">
+    <meta property="og:image" content="https://xn--amnake-q9a.com/vada.webp">
+    <meta name="theme-color" content="#100b17">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/site.css">
+    <style>
+        .yakala-sahne { padding: clamp(1rem, 4vw, 2rem); }
+        #izgara { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(.6rem, 2.5vw, 1.2rem); max-width: 520px; margin: 0 auto; }
+        #izgara.salla { animation: salla .35s; }
+        @keyframes salla { 20%{transform:translate(-8px,4px)} 40%{transform:translate(7px,-4px)} 60%{transform:translate(-5px,2px)} 80%{transform:translate(3px,-1px)} }
+        .delik {
+            aspect-ratio: 5 / 4; border: 0; cursor: pointer; position: relative; overflow: hidden;
+            background: transparent; border-radius: 16px; touch-action: manipulation;
+        }
+        /* Delik: altta karanlık bir elips, Vada bunun içinden çıkar */
+        .delik::before, .delik::after {
+            content: ''; position: absolute; left: 8%; right: 8%; border-radius: 50%;
+        }
+        .delik::before { bottom: 6%; height: 30%; background: radial-gradient(ellipse at 50% 35%, #000 0 55%, #1d1229 75%); box-shadow: 0 0 0 3px rgba(155,81,224,.35), 0 6px 18px rgba(155,81,224,.25); }
+        .delik::after { bottom: 0; height: 21%; background: #1a1326; z-index: 2; border-radius: 0 0 50% 50% / 0 0 100% 100%; }
+        .delik:hover::before { box-shadow: 0 0 0 3px rgba(0,240,255,.5), 0 6px 18px rgba(0,240,255,.25); }
+        .delik .cikan {
+            position: absolute; left: 16%; right: 16%; bottom: 14%; height: 74%; z-index: 1;
+            background: center bottom / contain no-repeat; transform: translateY(110%); transition: transform .12s ease-out;
+        }
+        .delik.vada .cikan { background-image: url('/vada.webp'); }
+        .delik.bomba .cikan { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='86'%3E💣%3C/text%3E%3C/svg%3E"); }
+        .delik.acik .cikan { transform: translateY(0); }
+        .delik.vuruldu .cikan { transform: translateY(20%) scale(.8); filter: brightness(2) saturate(0); transition-duration: .08s; }
+        .delik:focus-visible { outline-offset: -4px; }
+    </style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-18V4WVSKPM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-18V4WVSKPM');
+    </script>
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4795948929172388"
+     crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header class="ust-menu">
+        <a class="logo" href="/">AMINAKE</a>
+        <nav aria-label="Ana menü"><ul><li><a href="/">Buton</a></li><li><a href="/oyunlar" aria-current="page">Oyunlar</a></li><li><a href="/hakkinda">Hakkında</a></li></ul></nav>
+    </header>
+
+    <main class="oyun-sayfa">
+        <div class="oyun-bas">
+            <div>
+                <h1>Vada Yakala</h1>
+                <p>30 saniyede olabildiğince çok Vada yakala. Bombaya dokunursan 3 puan gider.</p>
+            </div>
+            <div class="skor-seridi">
+                <div class="skor"><small>Süre</small><output id="kalan">30</output></div>
+                <div class="skor"><small>Puan</small><output id="puan">0</output></div>
+                <div class="skor"><small>Kombo</small><output id="kombo">x0</output></div>
+                <div class="skor rekor"><small>Rekorun</small><output id="rekor">—</output></div>
+            </div>
+        </div>
+
+        <div class="sahne yakala-sahne">
+            <div id="izgara"></div>
+            <div class="durum" id="giris">
+                <h2>Hazır mısın?</h2>
+                <p>Vada'ya dokun, bombadan uzak dur. 5 ve üzeri kombo yaparsan her Vada 2 puan.</p>
+                <button class="dugme" id="basla" type="button">Oyunu başlat</button>
+            </div>
+            <div class="durum" id="sonuc" hidden>
+                <p class="buyuk" id="sonuc-puan"></p>
+                <p id="sonuc-detay"></p>
+                <p class="yeni-rekor" id="sonuc-rekor" hidden>★ Yeni rekor ★</p>
+                <button class="dugme" id="tekrar" type="button">Tekrar oyna</button>
+            </div>
+        </div>
+        <p style="margin-top:1rem"><button id="ses-dugmesi" class="dugme ikincil" type="button" style="padding:.45rem 1rem;font-size:.85rem"></button></p>
+
+        <article class="oyun-rehber">
+            <h2>Nasıl oynanır?</h2>
+            <p>Dokuz deliğin herhangi birinden Vada çıkar ve kısa bir süre sonra geri saklanır. Saklanmadan önce üzerine dokunursan puan kazanırsın. Arada bir Vada yerine bomba çıkar; ona dokunmak puanından 3 düşürür ve kombonu sıfırlar.</p>
+
+            <h2>Puanlama</h2>
+            <ul>
+                <li>Her yakalanan Vada 1 puan.</li>
+                <li>Art arda 5 ya da daha fazla Vada yakalarsan kombo devreye girer ve her Vada 2 puan olur.</li>
+                <li>Bir Vada'yı kaçırırsan ya da bombaya dokunursan kombo sıfırlanır.</li>
+                <li>Bomba 3 puan götürür, ama puan sıfırın altına düşmez.</li>
+            </ul>
+
+            <h2>Zorluk nasıl artıyor?</h2>
+            <p>Oyun ilerledikçe Vada'lar daha sık çıkar ve daha kısa süre görünür. Bomba ihtimali de yavaş yavaş yükselir. Son 10 saniyede bazen iki Vada aynı anda çıkar, bu yüzden en çok puanı son bölümde kazanırsın ya da kaybedersin.</p>
+
+            <h2>Klavyeyle oynama</h2>
+            <p>Bilgisayarda sayı tuşlarıyla da oynayabilirsin. Delikler sayısal tuş takımının düzenine göre yerleşmiştir: üst sıra 7-8-9, orta sıra 4-5-6, alt sıra 1-2-3.</p>
+
+            <h2>İpuçları</h2>
+            <p>Gözünü tek bir deliğe dikmek yerine ızgaranın ortasına bak; çevre görüşün hareketleri daha hızlı yakalar. Komboyu korumak, rastgele hızlı dokunmaktan daha çok puan getirir. Bombayı fark ettiğinde bir an durmak, onu yanlışlıkla vurmaktan her zaman iyidir.</p>
+        </article>
+        
+        <nav class="diger-oyunlar" aria-label="Diğer oyunlar">
+            <h2>Diğer oyunlar</h2>
+            <ul><li><a href="/oyunlar/cps-testi">CPS Testi</a></li><li><a href="/oyunlar/reaksiyon-testi">Reaksiyon Testi</a></li><li><a href="/oyunlar/ritim-hafizasi">Ritim Hafızası</a></li><li><a href="/oyunlar/vada-zipla">Vada Zıpla</a></li></ul>
+        </nav>
+    </main>
+    <footer class="alt-bilgi">
+        <span>© 2026 Alpoflex &amp; Yako</span>
+        <nav aria-label="Alt menü">
+            <a href="/oyunlar">Oyunlar</a>
+            <a href="/hakkinda">Hakkında</a>
+            <a href="/iletisim">İletişim</a>
+            <a href="/gizlilik">Gizlilik ve Çerezler</a>
+        </nav>
+    </footer>
+    <script type="module" src="/oyunlar/vada-yakala.js"></script>
+</body>
+</html>

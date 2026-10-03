@@ -17,49 +17,43 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 // ===== INTRO SEQUENCE =====
-document.addEventListener('DOMContentLoaded', () => {
+// İlk ziyarette kısa bir geri sayım gösterilir, sonraki ziyaretlerde atlanır.
+(function intro() {
     const overlay = document.getElementById('intro-overlay');
     const mainContent = document.getElementById('main-content');
-    const lines = [
-        document.getElementById('line1'),
-        document.getElementById('line2'),
-        document.getElementById('line3'),
-        document.getElementById('line4'),
-        document.getElementById('line5'),
-    ];
+    if (!overlay) return;
 
-    const schedule = [
-        { show: 0, hide: 1 },    // "Bir şey olacak..."
-        { show: 1, hide: 2 },    // "Hazır mısın?"
-        { show: 2, hide: 3 },    // 3
-        { show: 3, hide: 4 },    // 2
-        { show: 4, hide: 5 },    // 1
-    ];
-
-    let delay = 500;
-    schedule.forEach((s, i) => {
-        setTimeout(() => {
-            if (i > 0) lines[i - 1].classList.replace('show', 'hide');
-            lines[i].classList.add('show');
-        }, delay + s.show * 1000);
-    });
-
-    // After last countdown, fade out intro
-    setTimeout(() => {
-        lines[4].classList.replace('show', 'hide');
-    }, delay + 5 * 1000);
-
-    setTimeout(() => {
+    const ac = () => {
         overlay.classList.add('fade-out');
         mainContent.classList.remove('hidden');
         mainContent.classList.add('visible');
-    }, delay + 5500);
+        setTimeout(() => overlay.remove(), 800);
+        try { localStorage.setItem('aminake-intro', '1'); } catch (_) { }
+    };
 
-    // Remove overlay from DOM after transition
-    setTimeout(() => {
+    if (document.documentElement.classList.contains('intro-yok')) {
         overlay.remove();
-    }, delay + 6500);
-});
+        mainContent.classList.remove('hidden');
+        return;
+    }
+
+    const lines = [1, 2, 3, 4, 5].map(i => document.getElementById('line' + i));
+    const ADIM = 600; // her satır 0,6 sn (eskiden 1 sn)
+    const zamanlayicilar = [];
+    lines.forEach((line, i) => {
+        zamanlayicilar.push(setTimeout(() => {
+            if (i > 0) lines[i - 1].classList.replace('show', 'hide');
+            line.classList.add('show');
+        }, 200 + i * ADIM));
+    });
+    zamanlayicilar.push(setTimeout(() => lines[4].classList.replace('show', 'hide'), 200 + 5 * ADIM));
+    zamanlayicilar.push(setTimeout(ac, 200 + 5 * ADIM + 300));
+
+    document.getElementById('intro-gec').addEventListener('click', () => {
+        zamanlayicilar.forEach(clearTimeout);
+        ac();
+    });
+})();
 
 // ===== PARTICLE SYSTEM =====
 const canvas = document.getElementById('particle-canvas');
@@ -137,7 +131,7 @@ function initAudio() {
     if (!audioCtx) {
         audioCtx = new AudioContext();
     }
-    fetch('aminake.mp3')
+    fetch('/aminake.mp3')
         .then(response => response.arrayBuffer())
         .then(data => audioCtx.decodeAudioData(data))
         .then(buffer => {
@@ -242,7 +236,17 @@ const counterEl = document.getElementById('counter-value');
 const counterContainer = document.getElementById('counter-container');
 
 // Auth: Kullanıcı adı kontrolü
-let currentUser = localStorage.getItem('aminake-username') || null;
+// Sadece harf, rakam ve alt çizgi. Firebase yolunu bozan / . # $ [ ] karakterleri
+// ve HTML enjeksiyonu bu sayede engellenir. (Aynı kural database.rules.json'da da var.)
+const ISIM_KURALI = /^[A-Za-z0-9_çğıöşüÇĞİÖŞÜ]{1,12}$/;
+
+let currentUser = null;
+try { currentUser = localStorage.getItem('aminake-username'); } catch (_) { }
+if (currentUser && !ISIM_KURALI.test(currentUser)) {
+    // Eski sürümde kurala uymayan isim alınmışsa sıfırla
+    currentUser = null;
+    try { localStorage.removeItem('aminake-username'); } catch (_) { }
+}
 
 if (currentUser) {
     showLoggedIn(currentUser);
@@ -251,6 +255,10 @@ if (currentUser) {
 joinBtn.addEventListener('click', async () => {
     const val = usernameInput.value.trim();
     if (val.length === 0) return;
+    if (!ISIM_KURALI.test(val)) {
+        alert('Takma ad 1–12 karakter olmalı ve sadece harf, rakam ve alt çizgi (_) içermeli.');
+        return;
+    }
     
     // Disable input while checking
     usernameInput.disabled = true;
@@ -267,7 +275,7 @@ joinBtn.addEventListener('click', async () => {
         } else {
             // Kimse almamışsa, başarıyla oturum aç
             currentUser = val;
-            localStorage.setItem('aminake-username', currentUser);
+            try { localStorage.setItem('aminake-username', currentUser); } catch (_) { }
             showLoggedIn(currentUser);
         }
     } catch (err) {
@@ -316,13 +324,21 @@ onValue(topUsersQuery, (snapshot) => {
 
     leaderboardList.innerHTML = '';
     if (users.length === 0) {
-        leaderboardList.innerHTML = '<li style="justify-content: center; color: #888;">Liste boş!</li>';
+        leaderboardList.innerHTML = '<li class="loading">Liste boş!</li>';
         return;
     }
 
     users.forEach(u => {
+        // innerHTML KULLANMA: isimler kullanıcıdan geliyor, HTML olarak basılırsa
+        // herkesin tarayıcısında kod çalıştırılabilir (XSS).
         const li = document.createElement('li');
-        li.innerHTML = `<span class="lb-name">${u.name}</span><span class="lb-score">${u.score.toLocaleString('tr-TR')}</span>`;
+        const ad = document.createElement('span');
+        ad.className = 'lb-name';
+        ad.textContent = u.name;
+        const skor = document.createElement('span');
+        skor.className = 'lb-score';
+        skor.textContent = Number(u.score || 0).toLocaleString('tr-TR');
+        li.append(ad, skor);
         leaderboardList.appendChild(li);
     });
 });
@@ -331,8 +347,9 @@ onValue(topUsersQuery, (snapshot) => {
 // 1.5 saniyede bir bekleyen tıklamaları Firebase'e yollar
 setInterval(() => {
     if (pendingSyncClicks > 0) {
-        const clicksToSend = pendingSyncClicks;
-        pendingSyncClicks = 0;
+        // Firebase kuralı tek seferde en fazla 100 artışa izin veriyor
+        const clicksToSend = Math.min(pendingSyncClicks, 90);
+        pendingSyncClicks -= clicksToSend;
 
         const updates = {};
         updates['global/count'] = increment(clicksToSend);
@@ -411,7 +428,8 @@ function flashBgColor() {
 // ===== VADAA CHARACTERS =====
 function spawnVada() {
     const el = document.createElement('img');
-    el.src = 'vada.png';
+    el.src = '/vada.webp';
+    el.alt = '';
     el.className = 'vada-character';
 
     // Vary the speed, size, and vertical position a bit

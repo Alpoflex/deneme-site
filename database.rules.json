@@ -1,0 +1,27 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "global": {
+      "count": {
+        ".read": true,
+        ".write": "newData.exists()",
+        ".validate": "newData.isNumber() && newData.val() > (data.exists() ? data.val() : 0) && newData.val() <= (data.exists() ? data.val() : 0) + 100"
+      }
+    },
+
+    "users": {
+      ".read": true,
+      ".indexOn": ["score"],
+      "$name": {
+        ".write": "newData.exists()",
+        ".validate": "$name.matches(/^[A-Za-z0-9_çğıöşüÇĞİÖŞÜ]{1,12}$/) && newData.hasChildren(['score'])",
+        "score": {
+          ".validate": "newData.isNumber() && newData.val() > (data.exists() ? data.val() : 0) && newData.val() <= (data.exists() ? data.val() : 0) + 100"
+        },
+        "$diger": { ".validate": false }
+      }
+    }
+  }
+}

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ritim Hafızası: Sesli Hafıza Oyunu | amınake</title>
+    <meta name="description" content="Sesleri dinle, aynı sırayla tekrar et. Her turda uzayan dizilerle hafızanı test eden ücretsiz online oyun.">
+    <link rel="canonical" href="https://xn--amnake-q9a.com/oyunlar/ritim-hafizasi">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="amınake">
+    <meta property="og:title" content="Ritim Hafızası: Sesli Hafıza Oyunu | amınake">
+    <meta property="og:description" content="Sesleri dinle, aynı sırayla tekrar et. Her turda uzayan dizilerle hafızanı test eden ücretsiz online oyun.">
+    <meta property="og:url" content="https://xn--amnake-q9a.com/oyunlar/ritim-hafizasi">
+    <meta property="og:image" content="https://xn--amnake-q9a.com/vada.webp">
+    <meta name="theme-color" content="#100b17">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/site.css">
+    <style>
+        .ritim-sahne { padding: clamp(1.2rem, 4vw, 2.4rem); display: grid; justify-items: center; gap: 1.2rem; }
+        .pedler { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(.7rem, 3vw, 1.2rem); width: min(100%, 380px); }
+        .ped {
+            aspect-ratio: 1; border-radius: 22px; cursor: pointer; border: 2px solid var(--r);
+            background: color-mix(in srgb, var(--r) 14%, #120c1b); color: var(--r);
+            font-family: var(--piksel); font-size: 1rem; transition: background .08s, box-shadow .08s, transform .08s;
+            touch-action: manipulation;
+        }
+        .ped:nth-child(1) { --r: #9b51e0; border-top-left-radius: 70px; }
+        .ped:nth-child(2) { --r: #00f0ff; border-top-right-radius: 70px; }
+        .ped:nth-child(3) { --r: #39ff14; border-bottom-left-radius: 70px; }
+        .ped:nth-child(4) { --r: #ffd700; border-bottom-right-radius: 70px; }
+        .ped.yanik { background: var(--r); color: #120c1b; box-shadow: 0 0 40px var(--r); transform: scale(.97); }
+        .ped:disabled { cursor: default; }
+        #mesaj { font-family: var(--baslik); color: var(--soluk); min-height: 1.6em; }
+    </style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-18V4WVSKPM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-18V4WVSKPM');
+    </script>
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4795948929172388"
+     crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header class="ust-menu">
+        <a class="logo" href="/">AMINAKE</a>
+        <nav aria-label="Ana menü"><ul><li><a href="/">Buton</a></li><li><a href="/oyunlar" aria-current="page">Oyunlar</a></li><li><a href="/hakkinda">Hakkında</a></li></ul></nav>
+    </header>
+
+    <main class="oyun-sayfa">
+        <div class="oyun-bas">
+            <div>
+                <h1>Ritim Hafızası</h1>
+                <p>Her ped farklı perdede bir ses çalar. Diziyi dinle, sonra aynı sırayla bas.</p>
+            </div>
+            <div class="skor-seridi">
+                <div class="skor"><small>Seviye</small><output id="seviye">0</output></div>
+                <div class="skor rekor"><small>Rekorun</small><output id="rekor">—</output></div>
+            </div>
+        </div>
+
+        <div class="sahne ritim-sahne">
+            <p id="mesaj" aria-live="polite"></p>
+            <div class="pedler">
+                <button class="ped" type="button" aria-label="Kalın ses (1)">1</button>
+                <button class="ped" type="button" aria-label="Normal ses (2)">2</button>
+                <button class="ped" type="button" aria-label="İnce ses (3)">3</button>
+                <button class="ped" type="button" aria-label="En ince ses (4)">4</button>
+            </div>
+            <button id="ses-dugmesi" class="dugme ikincil" type="button" style="padding:.45rem 1rem;font-size:.85rem"></button>
+            <div class="durum" id="giris">
+                <h2>Ritim Hafızası</h2>
+                <p>Sesi açmayı unutma. Bu oyun kulakla da oynanır.</p>
+                <button class="dugme" id="basla" type="button">Oyunu başlat</button>
+            </div>
+            <div class="durum" id="sonuc" hidden>
+                <h2>Yanlış ped!</h2>
+                <p>Ulaştığın seviye</p>
+                <p class="buyuk" id="sonuc-seviye"></p>
+                <p class="yeni-rekor" id="sonuc-rekor" hidden>★ Yeni rekor ★</p>
+                <button class="dugme" id="tekrar" type="button">Tekrar oyna</button>
+            </div>
+        </div>
+
+        <article class="oyun-rehber">
+            <h2>Nasıl oynanır?</h2>
+            <p>Oyun her turda diziye yeni bir ses ekler ve tüm diziyi baştan çalar. Sen de pedlere aynı sırayla basarsın. Tüm diziyi doğru tekrar edersen bir sonraki seviyeye geçersin; tek bir yanlış basış oyunu bitirir. Ulaştığın en yüksek seviye rekorun olarak kaydedilir.</p>
+
+            <h2>Pedler ve sesler</h2>
+            <p>Dört pedin her biri aynı sesi farklı bir perdeden çalar: mor ped en kalın, sarı ped en ince sestir. Renklerin yanında perdeleri de ezberlemek, dizi uzadıkça çok işine yarar. Bazı oyuncular sadece ekrana bakarak, bazıları ise gözünü kapatıp sadece dinleyerek daha iyi sonuç alır.</p>
+
+            <h2>Klavye kısayolları</h2>
+            <ul>
+                <li>1, 2, 3, 4 tuşları pedlere sırasıyla karşılık gelir.</li>
+                <li>Ok tuşlarıyla da oynayabilirsin: yukarı = 1, sağ = 2, aşağı = 3, sol = 4.</li>
+            </ul>
+
+            <h2>Hafızanı güçlendirmek için</h2>
+            <p>İnsan kısa süreli belleği aynı anda ortalama 5 ile 9 arası öğeyi tutabilir. Bu sınırı aşmanın en etkili yolu diziyi küçük gruplara bölmektir: on adımlık bir diziyi "üç-üç-dört" şeklinde hatırlamak, on ayrı adımı tek tek hatırlamaktan çok daha kolaydır. Diziyi içinden mırıldanmak ya da pedlerin konumunu bir şekil gibi düşünmek de işe yarar.</p>
+            <p>Seviye arttıkça tempo da hızlanır. 10. seviyeyi geçmek iyi bir sonuçtur; 15'in üzeri gerçekten güçlü bir işitsel hafıza gerektirir.</p>
+        </article>
+        
+        <nav class="diger-oyunlar" aria-label="Diğer oyunlar">
+            <h2>Diğer oyunlar</h2>
+            <ul><li><a href="/oyunlar/cps-testi">CPS Testi</a></li><li><a href="/oyunlar/reaksiyon-testi">Reaksiyon Testi</a></li><li><a href="/oyunlar/vada-yakala">Vada Yakala</a></li><li><a href="/oyunlar/vada-zipla">Vada Zıpla</a></li></ul>
+        </nav>
+    </main>
+    <footer class="alt-bilgi">
+        <span>© 2026 Alpoflex &amp; Yako</span>
+        <nav aria-label="Alt menü">
+            <a href="/oyunlar">Oyunlar</a>
+            <a href="/hakkinda">Hakkında</a>
+            <a href="/iletisim">İletişim</a>
+            <a href="/gizlilik">Gizlilik ve Çerezler</a>
+        </nav>
+    </footer>
+    <script type="module" src="/oyunlar/ritim-hafizasi.js"></script>
+</body>
+</html>

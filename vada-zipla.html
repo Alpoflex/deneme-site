@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vada Zıpla: Sonsuz Koşu Oyunu | amınake</title>
+    <meta name="description" content="Vada ile engellerin üstünden atla, hızlanan sonsuz koşuda rekorunu kır. Telefonda ve bilgisayarda ücretsiz oynanır.">
+    <link rel="canonical" href="https://xn--amnake-q9a.com/oyunlar/vada-zipla">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="amınake">
+    <meta property="og:title" content="Vada Zıpla: Sonsuz Koşu Oyunu | amınake">
+    <meta property="og:description" content="Vada ile engellerin üstünden atla, hızlanan sonsuz koşuda rekorunu kır. Telefonda ve bilgisayarda ücretsiz oynanır.">
+    <meta property="og:url" content="https://xn--amnake-q9a.com/oyunlar/vada-zipla">
+    <meta property="og:image" content="https://xn--amnake-q9a.com/vada.webp">
+    <meta name="theme-color" content="#100b17">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/site.css">
+    <style>
+        #tuval { display: block; width: 100%; cursor: pointer; }
+        #tuval:focus { outline: none; }
+    </style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-18V4WVSKPM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-18V4WVSKPM');
+    </script>
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4795948929172388"
+     crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header class="ust-menu">
+        <a class="logo" href="/">AMINAKE</a>
+        <nav aria-label="Ana menü"><ul><li><a href="/">Buton</a></li><li><a href="/oyunlar" aria-current="page">Oyunlar</a></li><li><a href="/hakkinda">Hakkında</a></li></ul></nav>
+    </header>
+
+    <main class="oyun-sayfa">
+        <div class="oyun-bas">
+            <div>
+                <h1>Vada Zıpla</h1>
+                <p>Vada durmadan koşuyor. Engellerin üstünden atla, ne kadar uzağa gidebildiğini gör.</p>
+            </div>
+            <div class="skor-seridi">
+                <div class="skor"><small>Mesafe</small><output id="puan">0</output></div>
+                <div class="skor rekor"><small>Rekorun</small><output id="rekor">—</output></div>
+            </div>
+        </div>
+
+        <div class="sahne" id="sahne">
+            <canvas id="tuval" tabindex="0" aria-label="Oyun alanı: zıplamak için dokun veya boşluk tuşuna bas"></canvas>
+            <div class="durum" id="giris">
+                <h2>Vada Zıpla</h2>
+                <p>Zıplamak için ekrana dokun ya da boşluk tuşuna bas. Basılı tutarsan daha yükseğe zıplarsın.</p>
+                <button class="dugme" id="basla" type="button">Koşmaya başla</button>
+            </div>
+            <div class="durum" id="sonuc" hidden>
+                <h2>Çarptın!</h2>
+                <p class="buyuk" id="sonuc-puan"></p>
+                <p class="yeni-rekor" id="sonuc-rekor" hidden>★ Yeni rekor ★</p>
+                <button class="dugme" id="tekrar" type="button">Tekrar koş</button>
+            </div>
+        </div>
+        <p style="margin-top:1rem"><button id="ses-dugmesi" class="dugme ikincil" type="button" style="padding:.45rem 1rem;font-size:.85rem"></button></p>
+
+        <article class="oyun-rehber">
+            <h2>Nasıl oynanır?</h2>
+            <p>Vada sağa doğru kendi kendine koşar; senin tek işin doğru anda zıplamak. Yerden yükselen mavi direklere ya da havada süzülen sarı hoparlörlere çarptığın an oyun biter. Kat ettiğin mesafe puanındır ve her 100 metrede tanıdık bir ses seni tebrik eder.</p>
+
+            <h2>Kontroller</h2>
+            <ul>
+                <li><strong>Telefonda:</strong> Ekranın herhangi bir yerine dokun.</li>
+                <li><strong>Bilgisayarda:</strong> Boşluk, yukarı ok ya da W tuşu.</li>
+                <li><strong>Yüksek zıplama:</strong> Tuşu veya parmağını basılı tutarsan Vada daha yükseğe çıkar. Kısa basarsan alçak ve hızlı zıplar.</li>
+            </ul>
+
+            <h2>Engeller</h2>
+            <p>Oyunun başında sadece tek tek direkler gelir. Mesafe arttıkça yan yana duran çift direkler ve havada asılı hoparlörler eklenir. Hoparlörler tam Vada'nın boyunda süzüldüğü için altından geçemezsin; onları da üstten aşmalısın. Hız da sürekli artar, bu yüzden zıplama zamanlamasını zamanla daha erkene çekmen gerekir.</p>
+
+            <h2>Daha uzağa gitmek için</h2>
+            <p>Alçak engellerde kısa zıplamalar yap: havada daha az kalırsın ve bir sonraki engele hazır olursun. Çift direklerde ve hoparlörlerde ise basılı tutarak uzun zıpla. Gözünü Vada'ya değil, ekranın sağ tarafından gelen engellere dikmek tepki süreni ciddi şekilde kısaltır.</p>
+        </article>
+        
+        <nav class="diger-oyunlar" aria-label="Diğer oyunlar">
+            <h2>Diğer oyunlar</h2>
+            <ul><li><a href="/oyunlar/cps-testi">CPS Testi</a></li><li><a href="/oyunlar/reaksiyon-testi">Reaksiyon Testi</a></li><li><a href="/oyunlar/vada-yakala">Vada Yakala</a></li><li><a href="/oyunlar/ritim-hafizasi">Ritim Hafızası</a></li></ul>
+        </nav>
+    </main>
+    <footer class="alt-bilgi">
+        <span>© 2026 Alpoflex &amp; Yako</span>
+        <nav aria-label="Alt menü">
+            <a href="/oyunlar">Oyunlar</a>
+            <a href="/hakkinda">Hakkında</a>
+            <a href="/iletisim">İletişim</a>
+            <a href="/gizlilik">Gizlilik ve Çerezler</a>
+        </nav>
+    </footer>
+    <script type="module" src="/oyunlar/vada-zipla.js"></script>
+</body>
+</html>

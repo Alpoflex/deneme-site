@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPS Testi: Saniyede Kaç Kez Tıklayabilirsin? | amınake</title>
+    <meta name="description" content="Ücretsiz CPS testi ile tıklama hızını ölç. 1, 5 ve 10 saniyelik modlar, kişisel rekor ve CPS artırma ipuçları.">
+    <link rel="canonical" href="https://xn--amnake-q9a.com/oyunlar/cps-testi">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="amınake">
+    <meta property="og:title" content="CPS Testi: Saniyede Kaç Kez Tıklayabilirsin? | amınake">
+    <meta property="og:description" content="Ücretsiz CPS testi ile tıklama hızını ölç. 1, 5 ve 10 saniyelik modlar, kişisel rekor ve CPS artırma ipuçları.">
+    <meta property="og:url" content="https://xn--amnake-q9a.com/oyunlar/cps-testi">
+    <meta property="og:image" content="https://xn--amnake-q9a.com/vada.webp">
+    <meta name="theme-color" content="#100b17">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/site.css">
+    <style>
+        .cps-sahne { padding: 2.2rem 1rem 2.6rem; display: grid; justify-items: center; gap: 1.6rem; }
+        #tik {
+            width: min(62vw, 240px); aspect-ratio: 1; border-radius: 50%;
+            border: 3px solid var(--mor); color: #fff; cursor: pointer;
+            background: radial-gradient(circle at 30% 30%, #3a1750, #0d0913);
+            box-shadow: 0 0 30px rgba(155,81,224,.45), inset 0 0 30px rgba(155,81,224,.2);
+            display: grid; place-content: center; gap: .3rem; touch-action: manipulation;
+        }
+        #tik .ust { font-family: var(--piksel); font-size: clamp(1.4rem, 7vw, 2.2rem); }
+        #tik .alt { font-size: .8rem; color: var(--soluk); }
+        #tik.vur { animation: vur .12s ease; }
+        @keyframes vur { 50% { transform: scale(.93); box-shadow: 0 0 50px rgba(57,255,20,.6); border-color: var(--yesil); } }
+    </style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-18V4WVSKPM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-18V4WVSKPM');
+    </script>
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4795948929172388"
+     crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header class="ust-menu">
+        <a class="logo" href="/">AMINAKE</a>
+        <nav aria-label="Ana menü"><ul><li><a href="/">Buton</a></li><li><a href="/oyunlar" aria-current="page">Oyunlar</a></li><li><a href="/hakkinda">Hakkında</a></li></ul></nav>
+    </header>
+
+    <main class="oyun-sayfa">
+        <div class="oyun-bas">
+            <div>
+                <h1>CPS Testi</h1>
+                <p>Butona olabildiğince hızlı bas. Süre ilk tıklamanla başlar.</p>
+            </div>
+            <div class="skor-seridi">
+                <div class="skor"><small>Kalan süre</small><output id="kalan">5.0</output></div>
+                <div class="skor"><small>Tık</small><output id="tiklar">0</output></div>
+                <div class="skor rekor"><small>Rekorun</small><output id="rekor">—</output></div>
+            </div>
+        </div>
+
+        <div class="sahne cps-sahne">
+            <div class="secenekler" role="group" aria-label="Süre seç">
+                <button type="button" data-sure="1" aria-pressed="false">1 saniye</button>
+                <button type="button" data-sure="5" aria-pressed="true">5 saniye</button>
+                <button type="button" data-sure="10" aria-pressed="false">10 saniye</button>
+            </div>
+            <button id="tik" type="button"><span class="ust">BAŞLA</span><span class="alt">ilk tık süreyi başlatır</span></button>
+            <button id="ses-dugmesi" class="dugme ikincil" type="button" style="padding:.45rem 1rem;font-size:.85rem"></button>
+            <div class="durum" id="sonuc" hidden>
+                <p class="buyuk" id="sonuc-cps"></p>
+                <h2 id="sonuc-unvan"></h2>
+                <p id="sonuc-detay"></p>
+                <p class="yeni-rekor" id="sonuc-rekor" hidden>★ Yeni rekor ★</p>
+                <button class="dugme" id="tekrar" type="button">Tekrar dene</button>
+            </div>
+        </div>
+
+        <article class="oyun-rehber">
+            <h2>CPS nedir?</h2>
+            <p>CPS, "clicks per second" yani saniyedeki tıklama sayısıdır. Toplam tıklama sayın seçtiğin süreye bölünür: 5 saniyede 40 kez tıkladıysan CPS değerin 8 olur. Özellikle Minecraft PvP gibi hızlı tıklamanın avantaj sağladığı oyunlarda oyuncular kendi hızlarını ölçmek için bu testi kullanır.</p>
+
+            <h2>Ortalama CPS kaç?</h2>
+            <p>Normal tıklama yapan çoğu kişi 5 ile 7 arasında kalır. 8–10 arası hızlı sayılır, 10'un üzeri ise ancak düzenli pratik yapanların ve özel tıklama teknikleri kullananların ulaşabildiği bir seviyedir. 14 ve üzeri sonuçlar insan için oldukça sıra dışıdır.</p>
+
+            <h2>Hangi süreyi seçmeliyim?</h2>
+            <ul>
+                <li><strong>1 saniye:</strong> Ani patlama hızını ölçer. Sonuç dalgalı olur, şansın etkisi büyüktür.</li>
+                <li><strong>5 saniye:</strong> En yaygın kullanılan test. Hız ile dayanıklılık arasında iyi bir denge kurar.</li>
+                <li><strong>10 saniye:</strong> Parmağının yorulmadan ne kadar dayanabildiğini gösterir. Genelde 5 saniyelik sonuçtan biraz düşüktür.</li>
+            </ul>
+
+            <h2>CPS'ini artırmanın yolları</h2>
+            <h3>Jitter click</h3>
+            <p>Kol ve bilek kaslarını gerip eli titreterek tıklama yöntemi. Kısa sürede çok yüksek değerler verir ama yorucudur ve uzun süre yapılması bileği zorlayabilir.</p>
+            <h3>Butterfly click</h3>
+            <p>İki parmakla aynı tuşa sırayla basma tekniği. Doğru mouse ile 15'in üzerine çıkılabilir, ancak bazı oyun sunucuları bu yöntemi yasaklıyor.</p>
+            <h3>Rahat başla</h3>
+            <p>İlk tıklamadan önce eli gevşek tutmak, ilk saniyelerde gereksiz gerginliği azaltır. Telefonda iki başparmakla dönüşümlü dokunmak da sonucu ciddi şekilde yükseltir.</p>
+
+            <p>Rekorun sadece bu tarayıcıda saklanır. Her süre için ayrı rekor tutulur.</p>
+        </article>
+        
+        <nav class="diger-oyunlar" aria-label="Diğer oyunlar">
+            <h2>Diğer oyunlar</h2>
+            <ul><li><a href="/oyunlar/reaksiyon-testi">Reaksiyon Testi</a></li><li><a href="/oyunlar/vada-yakala">Vada Yakala</a></li><li><a href="/oyunlar/ritim-hafizasi">Ritim Hafızası</a></li><li><a href="/oyunlar/vada-zipla">Vada Zıpla</a></li></ul>
+        </nav>
+    </main>
+    <footer class="alt-bilgi">
+        <span>© 2026 Alpoflex &amp; Yako</span>
+        <nav aria-label="Alt menü">
+            <a href="/oyunlar">Oyunlar</a>
+            <a href="/hakkinda">Hakkında</a>
+            <a href="/iletisim">İletişim</a>
+            <a href="/gizlilik">Gizlilik ve Çerezler</a>
+        </nav>
+    </footer>
+    <script type="module" src="/oyunlar/cps-testi.js"></script>
+</body>
+</html>

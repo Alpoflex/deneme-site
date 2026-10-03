@@ -40,6 +40,25 @@ body {
     transition: opacity 0.8s ease, visibility 0.8s ease;
 }
 
+/* Daha önce görenler için intro atlanır */
+.intro-yok #intro-overlay { display: none; }
+.intro-yok #main-content.hidden { opacity: 1; pointer-events: auto; }
+
+#intro-gec {
+    position: absolute;
+    right: 1.2rem;
+    bottom: 1.2rem;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: var(--text-secondary);
+    font-family: 'Rubik', sans-serif;
+    font-size: 0.9rem;
+    padding: 0.45rem 1.1rem;
+    border-radius: 999px;
+    cursor: pointer;
+}
+#intro-gec:hover { color: #fff; border-color: #fff; }
+
 #intro-overlay.fade-out {
     opacity: 0;
     visibility: hidden;
@@ -415,7 +434,7 @@ body {
 
 /* ===== FOOTER ===== */
 #site-footer {
-    position: fixed;
+    position: absolute;
     bottom: 1.5rem;
     left: 50%;
     translate: -50% 0;
@@ -553,7 +572,7 @@ body.shake {
 
 /* ===== SOCIAL LINKS ===== */
 #social-links {
-    position: fixed;
+    position: absolute;
     bottom: 1.5rem;
     right: 1.5rem;
     z-index: 10;
@@ -606,7 +625,7 @@ body.shake {
 }
 
 #auth-panel {
-    position: fixed;
+    position: absolute;
     top: 1rem;
     right: 1rem;
     z-index: 50;
@@ -663,7 +682,7 @@ body.shake {
 }
 
 #leaderboard-panel {
-    position: fixed;
+    position: absolute;
     top: 5rem;
     right: 1rem;
     z-index: 40;
@@ -873,4 +892,100 @@ body.shake {
         width: 18px;
         height: 18px;
     }
+}
+/* ===== GİRİŞ DURUMU (önceden eksikti, iki kutu da aynı anda görünüyordu) ===== */
+#auth-container.hidden,
+#logged-in-container.hidden { display: none; }
+
+/* ===== ANA MENÜ ===== */
+#ana-menu {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    z-index: 50;
+    display: flex;
+    gap: 0.5rem;
+}
+#ana-menu a {
+    font-family: 'Rubik', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    padding: 0.55rem 1rem;
+    border-radius: 999px;
+    background: rgba(18, 18, 26, 0.7);
+    border: 1px solid rgba(138, 43, 226, 0.35);
+    backdrop-filter: blur(10px);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+#ana-menu a:hover { border-color: var(--neon-cyan); box-shadow: 0 0 14px rgba(0, 240, 255, 0.35); }
+#ana-menu a:first-child { border-color: var(--neon-pink); }
+
+/* ===== ALT İÇERİK ===== */
+#alt-icerik {
+    position: relative;
+    z-index: 2;
+    border-top: 1px solid rgba(138, 43, 226, 0.3);
+    background: linear-gradient(#130d1c, var(--dark-bg) 30%);
+    font-family: 'Rubik', system-ui, sans-serif;
+    color: #ddd3ec;
+    line-height: 1.65;
+    font-size: 1.0625rem;
+}
+.alt-ic { max-width: 44rem; margin: 0 auto; padding: 3.5rem 1.25rem 2.5rem; }
+#alt-icerik h2 {
+    font-family: 'Orbitron', sans-serif;
+    color: #fff;
+    font-size: clamp(1.25rem, 3.5vw, 1.6rem);
+    letter-spacing: 0.04em;
+    margin: 2.6rem 0 0.8rem;
+}
+#alt-icerik h2:first-child { margin-top: 0; }
+#alt-icerik h3 { color: #fff; font-size: 1.05rem; margin: 1.3rem 0 0.3rem; }
+#alt-icerik p + p { margin-top: 0.9rem; }
+#alt-icerik a { color: var(--neon-cyan); }
+
+.ana-oyunlar {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 12.5rem), 1fr));
+    gap: 0.7rem;
+    margin-top: 1rem;
+}
+.ana-oyunlar a {
+    display: grid;
+    gap: 0.2rem;
+    height: 100%;
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(138, 43, 226, 0.3);
+    text-decoration: none;
+    color: #fff !important;
+    transition: border-color 0.2s, background 0.2s;
+}
+.ana-oyunlar a:hover { border-color: var(--neon-cyan); background: rgba(0, 240, 255, 0.06); }
+.ana-oyunlar b { font-weight: 500; }
+.ana-oyunlar span { color: var(--text-secondary); font-size: 0.9rem; }
+
+.alt-bilgi-ana {
+    border-top: 1px solid rgba(138, 43, 226, 0.25);
+    padding: 1.4rem 1.25rem 2rem;
+}
+.alt-bilgi-ana nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem 1.4rem; }
+.alt-bilgi-ana a { color: var(--text-secondary) !important; text-decoration: none; font-size: 0.9rem; }
+.alt-bilgi-ana a:hover { color: #fff !important; }
+
+:focus-visible { outline: 2px solid var(--neon-cyan); outline-offset: 3px; }
+
+@media (max-width: 480px) {
+    #ana-menu {
+        position: static;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #bg-grid, #button-glow, #hint-text, #counter-value, #site-title { animation: none; }
 }
