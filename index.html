@@ -1,30 +1,37 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oyunlar: CPS Testi, Reaksiyon Testi ve Mini Oyunlar | amınake</title>
-    <meta name="description" content="Tarayıcıda ücretsiz oynanan mini oyunlar: CPS testi, reaksiyon testi, Vada Yakala, Ritim Hafızası ve Vada Zıpla.">
-    <link rel="canonical" href="https://xn--amnake-q9a.com/oyunlar">
+    <meta name="description" content="Bas, sesi duy, tekrar bas. Herkesin ortak sayacı, canlı sıralama ve CPS testi, reaksiyon testi gibi ücretsiz mini oyunlar.">
+    <title>amınake | Efsane Buton ve Mini Oyunlar</title>
+    <link rel="canonical" href="https://xn--amnake-q9a.com/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="amınake">
-    <meta property="og:title" content="Oyunlar: CPS Testi, Reaksiyon Testi ve Mini Oyunlar | amınake">
-    <meta property="og:description" content="Tarayıcıda ücretsiz oynanan mini oyunlar: CPS testi, reaksiyon testi, Vada Yakala, Ritim Hafızası ve Vada Zıpla.">
-    <meta property="og:url" content="https://xn--amnake-q9a.com/oyunlar">
+    <meta property="og:title" content="amınake | Efsane Buton">
+    <meta property="og:description" content="Bas, sesi duy, tekrar bas. Ortak sayaç, canlı sıralama ve mini oyunlar.">
+    <meta property="og:url" content="https://xn--amnake-q9a.com/">
     <meta property="og:image" content="https://xn--amnake-q9a.com/vada.webp">
     <meta name="theme-color" content="#100b17">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/site.css">
-
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=Rubik:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <script>
+        // Giriş animasyonunu sadece ilk ziyarette göster
+        try { if (localStorage.getItem('aminake-intro')) document.documentElement.classList.add('intro-yok'); } catch (_) {}
+    </script>
+    
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-18V4WVSKPM"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
+
       gtag('config', 'G-18V4WVSKPM');
     </script>
 
@@ -34,57 +41,146 @@
 </head>
 
 <body>
-    <header class="ust-menu">
-        <a class="logo" href="/">AMINAKE</a>
-        <nav aria-label="Ana menü"><ul><li><a href="/">Buton</a></li><li><a href="/oyunlar" aria-current="page">Oyunlar</a></li><li><a href="/hakkinda">Hakkında</a></li></ul></nav>
-    </header>
+    <!-- Intro Overlay -->
+    <div id="intro-overlay" aria-hidden="true">
+        <button id="intro-gec" type="button">Geç</button>
+        <div id="intro-text">
+            <span class="intro-line" id="line1">Bir şey olacak...</span>
+            <span class="intro-line" id="line2">Hazır mısın?</span>
+            <span class="intro-line" id="line3">3</span>
+            <span class="intro-line" id="line4">2</span>
+            <span class="intro-line" id="line5">1</span>
+        </div>
+    </div>
 
-    <main class="vitrin">
-        <h1>Oyunlar</h1>
-        <p>Butona basmaktan sıkıldıysan buradaki mini oyunlara geç. Hepsi tarayıcıda çalışır, üyelik ya da indirme gerekmez. Telefonda dokunarak, bilgisayarda mouse veya klavyeyle oynayabilirsin. Rekorların bu tarayıcıda saklanır.</p>
-        <ul class="oyun-listesi">
-                <li><a class="oyun-karti" href="/oyunlar/cps-testi" style="--renk:#00f0ff">
-                    <span class="ikon" aria-hidden="true">👆</span>
-                    <div><h2>CPS Testi</h2><p>Saniyede kaç kez tıklayabiliyorsun? 1, 5 ve 10 saniyelik modlar.</p></div>
-                    <span class="rekor-etiket" data-rekor="cps-5" data-birim="CPS (5 sn)"></span>
-                </a></li>
-                <li><a class="oyun-karti" href="/oyunlar/reaksiyon-testi" style="--renk:#39ff14">
-                    <span class="ikon" aria-hidden="true">⚡</span>
-                    <div><h2>Reaksiyon Testi</h2><p>Ekran yeşile dönünce bas. Refleksini milisaniye cinsinden ölç.</p></div>
-                    <span class="rekor-etiket" data-rekor="reaksiyon" data-birim="ms"></span>
-                </a></li>
-                <li><a class="oyun-karti" href="/oyunlar/vada-yakala" style="--renk:#9b51e0">
-                    <span class="ikon" aria-hidden="true">🎯</span>
-                    <div><h2>Vada Yakala</h2><p>Deliklerden çıkan Vada'ları yakala, bombalara dokunma.</p></div>
-                    <span class="rekor-etiket" data-rekor="vada-yakala" data-birim="puan"></span>
-                </a></li>
-                <li><a class="oyun-karti" href="/oyunlar/ritim-hafizasi" style="--renk:#ffd700">
-                    <span class="ikon" aria-hidden="true">🎵</span>
-                    <div><h2>Ritim Hafızası</h2><p>Sesleri dinle, aynı sırayla tekrar et. Her turda dizi uzar.</p></div>
-                    <span class="rekor-etiket" data-rekor="ritim" data-birim="seviye"></span>
-                </a></li>
-                <li><a class="oyun-karti" href="/oyunlar/vada-zipla" style="--renk:#ff3b6b">
-                    <span class="ikon" aria-hidden="true">🏃</span>
-                    <div><h2>Vada Zıpla</h2><p>Sonsuz koşu: engellerin üstünden atla, ne kadar uzağa gidebilirsin?</p></div>
-                    <span class="rekor-etiket" data-rekor="vada-zipla" data-birim="metre"></span>
-                </a></li>
-        </ul>
-    </main>
-    <script type="module">
-        import { rekorOku } from '/assets/ortak.js';
-        document.querySelectorAll('[data-rekor]').forEach(el => {
-            const r = rekorOku(el.dataset.rekor);
-            el.innerHTML = r === null ? 'Henüz oynamadın' : `Rekorun: <b>${r}</b> ${el.dataset.birim}`;
-        });
-    </script>
-    <footer class="alt-bilgi">
-        <span>© 2026 Alpoflex &amp; Yako</span>
-        <nav aria-label="Alt menü">
-            <a href="/oyunlar">Oyunlar</a>
+    <!-- Main Content -->
+    <div id="main-content" class="hidden">
+        <!-- Animated Background -->
+        <div id="bg-grid"></div>
+
+        <!-- Particle Canvas -->
+        <canvas id="particle-canvas"></canvas>
+
+        <!-- Site menüsü -->
+        <nav id="ana-menu" aria-label="Ana menü">
+            <a href="/oyunlar">🎮 Oyunlar</a>
             <a href="/hakkinda">Hakkında</a>
-            <a href="/iletisim">İletişim</a>
-            <a href="/gizlilik">Gizlilik ve Çerezler</a>
         </nav>
-    </footer>
+
+        <!-- Header -->
+        <header id="site-header">
+            <h1 id="site-title">AMINAKE</h1>
+            <p id="site-subtitle">ADAM ÖLDÜ MÜGE HANIM</p>
+        </header>
+
+
+
+        <!-- The Button -->
+        <div id="button-container">
+            <div id="button-glow"></div>
+            <button id="aminake-btn">
+                <span id="btn-text">BAS</span>
+                <span id="btn-subtext">amınake</span>
+            </button>
+        </div>
+
+        <!-- Hint & Timer -->
+        <div id="hint-text">⚡ Art arda bas, sesi duyunca anlarsın 😏</div>
+        <div id="pitch-timer" class="hidden">Sıfırlanıyor: <span id="pitch-time">3</span>s</div>
+
+        <!-- Counter -->
+        <div id="counter-container">
+            <div id="counter-label">Bu butona toplam</div>
+            <div id="counter-value">0</div>
+            <div id="counter-suffix">kez basıldı</div>
+        </div>
+
+        <!-- Container for Auth & Scoreboard so they can be positioned side-by-side or stacked -->
+        <div id="top-panels-container">
+            <!-- Auth & Scoreboard -->
+            <div id="auth-panel">
+                <div id="auth-container">
+                    <input type="text" id="username-input" placeholder="Takma ad (Örn: Yako)" maxlength="12"
+                        autocomplete="off" spellcheck="false" aria-label="Takma ad" />
+                    <button id="join-btn">Sıralamaya Katıl</button>
+                </div>
+                <div id="logged-in-container" class="hidden">
+                    Hoş geldin, <span id="current-username" class="vada-text"></span>! 🔥
+                </div>
+            </div>
+
+            <div id="leaderboard-panel">
+                <h3>🏆 GÜNÜN REKORLARI</h3>
+                <ul id="leaderboard-list">
+                    <li class="loading">Sıralama yükleniyor...</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer id="site-footer">
+            <p>Created by <span class="neon-text">Alpoflex</span> &amp; <span class="vada-text">YAKO BABA</span> 🔥</p>
+        </footer>
+
+        <!-- Instagram Links -->
+        <div id="social-links">
+            <a href="https://instagram.com/alpoflex" target="_blank" class="social-btn" title="Alpoflex Instagram">
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+                <span>Alpoflex</span>
+            </a>
+            <a href="https://instagram.com/yyakupakturk" target="_blank" class="social-btn" title="Yako Baba Instagram">
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+                <span>Yako</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Alt içerik: site ne, oyunlar, SSS -->
+    <section id="alt-icerik" aria-labelledby="alt-baslik">
+        <div class="alt-ic">
+            <h2 id="alt-baslik">Bu buton ne?</h2>
+            <p>İnternetin en meşhur tepkilerinden biri artık tek bir butonda. Bastığında ses çalar; art arda bastıkça ses incelir, ekran sallanır ve Vada koşarak geçer. Üç saniye basmazsan ses yavaşça normale döner.</p>
+            <p>Yukarıdaki sayaç sadece senin değil, siteye giren herkesin toplam basış sayısıdır ve canlı güncellenir. Takma adınla sıralamaya katılırsan basışların adına yazılır ve en çok basan beş kişi "Günün Rekorları" tablosunda görünür.</p>
+
+            <h2>Mini oyunlar</h2>
+            <p>Butondan sıkılırsan tarayıcıda çalışan, üyelik gerektirmeyen oyunlara geç:</p>
+            <ul class="ana-oyunlar">
+                <li><a href="/oyunlar/cps-testi"><b>👆 CPS Testi</b><span>Saniyede kaç kez tıklayabiliyorsun?</span></a></li>
+                <li><a href="/oyunlar/reaksiyon-testi"><b>⚡ Reaksiyon Testi</b><span>Refleksini milisaniyeyle ölç.</span></a></li>
+                <li><a href="/oyunlar/vada-yakala"><b>🎯 Vada Yakala</b><span>Deliklerden çıkan Vada'ları yakala.</span></a></li>
+                <li><a href="/oyunlar/ritim-hafizasi"><b>🎵 Ritim Hafızası</b><span>Sesleri aynı sırayla tekrar et.</span></a></li>
+                <li><a href="/oyunlar/vada-zipla"><b>🏃 Vada Zıpla</b><span>Engellerin üstünden atla.</span></a></li>
+            </ul>
+
+            <h2>Sık sorulanlar</h2>
+            <h3>Ses neden incelip duruyor?</h3>
+            <p>Her basışta sesin perdesi biraz yükselir. Ne kadar hızlı basarsan o kadar ince çıkar; ara verdiğinde sayaçta geri sayım başlar ve ses normal perdesine döner.</p>
+            <h3>Ses gelmiyor, ne yapmalıyım?</h3>
+            <p>Telefonun sessiz modda olmadığından ve medya sesinin açık olduğundan emin ol. Tarayıcılar sesi ancak sayfaya ilk dokunuştan sonra çalmaya izin verir, bu yüzden ilk basışta kısa bir gecikme olabilir.</p>
+            <h3>Takma adımı başka cihazda kullanabilir miyim?</h3>
+            <p>Takma ad şifresiz olduğu için sadece seçtiğin tarayıcıda hatırlanır. Başka cihazdan aynı ismi tekrar alamazsın, çünkü isim zaten kullanımda görünür.</p>
+        </div>
+        <footer class="alt-bilgi-ana">
+            <nav aria-label="Alt menü">
+                <a href="/oyunlar">Oyunlar</a>
+                <a href="/hakkinda">Hakkında</a>
+                <a href="/iletisim">İletişim</a>
+                <a href="/gizlilik">Gizlilik ve Çerezler</a>
+            </nav>
+        </footer>
+    </section>
+
+    <script type="module" src="/script.js"></script>
 </body>
+
 </html>

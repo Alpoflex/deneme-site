@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oyunlar: CPS Testi, Reaksiyon Testi ve Mini Oyunlar | amınake</title>
+    <meta name="description" content="Tarayıcıda ücretsiz oynanan mini oyunlar: CPS testi, reaksiyon testi, Vada Yakala, Ritim Hafızası ve Vada Zıpla.">
+    <link rel="canonical" href="https://xn--amnake-q9a.com/oyunlar">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="amınake">
+    <meta property="og:title" content="Oyunlar: CPS Testi, Reaksiyon Testi ve Mini Oyunlar | amınake">
+    <meta property="og:description" content="Tarayıcıda ücretsiz oynanan mini oyunlar: CPS testi, reaksiyon testi, Vada Yakala, Ritim Hafızası ve Vada Zıpla.">
+    <meta property="og:url" content="https://xn--amnake-q9a.com/oyunlar">
+    <meta property="og:image" content="https://xn--amnake-q9a.com/vada.webp">
+    <meta name="theme-color" content="#100b17">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/site.css">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-18V4WVSKPM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-18V4WVSKPM');
+    </script>
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4795948929172388"
+     crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header class="ust-menu">
+        <a class="logo" href="/">AMINAKE</a>
+        <nav aria-label="Ana menü"><ul><li><a href="/">Buton</a></li><li><a href="/oyunlar" aria-current="page">Oyunlar</a></li><li><a href="/hakkinda">Hakkında</a></li></ul></nav>
+    </header>
+
+    <main class="vitrin">
+        <h1>Oyunlar</h1>
+        <p>Butona basmaktan sıkıldıysan buradaki mini oyunlara geç. Hepsi tarayıcıda çalışır, üyelik ya da indirme gerekmez. Telefonda dokunarak, bilgisayarda mouse veya klavyeyle oynayabilirsin. Rekorların bu tarayıcıda saklanır.</p>
+        <ul class="oyun-listesi">
+                <li><a class="oyun-karti" href="/oyunlar/cps-testi" style="--renk:#00f0ff">
+                    <span class="ikon" aria-hidden="true">👆</span>
+                    <div><h2>CPS Testi</h2><p>Saniyede kaç kez tıklayabiliyorsun? 1, 5 ve 10 saniyelik modlar.</p></div>
+                    <span class="rekor-etiket" data-rekor="cps-5" data-birim="CPS (5 sn)"></span>
+                </a></li>
+                <li><a class="oyun-karti" href="/oyunlar/reaksiyon-testi" style="--renk:#39ff14">
+                    <span class="ikon" aria-hidden="true">⚡</span>
+                    <div><h2>Reaksiyon Testi</h2><p>Ekran yeşile dönünce bas. Refleksini milisaniye cinsinden ölç.</p></div>
+                    <span class="rekor-etiket" data-rekor="reaksiyon" data-birim="ms"></span>
+                </a></li>
+                <li><a class="oyun-karti" href="/oyunlar/vada-yakala" style="--renk:#9b51e0">
+                    <span class="ikon" aria-hidden="true">🎯</span>
+                    <div><h2>Vada Yakala</h2><p>Deliklerden çıkan Vada'ları yakala, bombalara dokunma.</p></div>
+                    <span class="rekor-etiket" data-rekor="vada-yakala" data-birim="puan"></span>
+                </a></li>
+                <li><a class="oyun-karti" href="/oyunlar/ritim-hafizasi" style="--renk:#ffd700">
+                    <span class="ikon" aria-hidden="true">🎵</span>
+                    <div><h2>Ritim Hafızası</h2><p>Sesleri dinle, aynı sırayla tekrar et. Her turda dizi uzar.</p></div>
+                    <span class="rekor-etiket" data-rekor="ritim" data-birim="seviye"></span>
+                </a></li>
+                <li><a class="oyun-karti" href="/oyunlar/vada-zipla" style="--renk:#ff3b6b">
+                    <span class="ikon" aria-hidden="true">🏃</span>
+                    <div><h2>Vada Zıpla</h2><p>Sonsuz koşu: engellerin üstünden atla, ne kadar uzağa gidebilirsin?</p></div>
+                    <span class="rekor-etiket" data-rekor="vada-zipla" data-birim="metre"></span>
+                </a></li>
+        </ul>
+    </main>
+    <script type="module">
+        import { rekorOku } from '/assets/ortak.js';
+        document.querySelectorAll('[data-rekor]').forEach(el => {
+            const r = rekorOku(el.dataset.rekor);
+            el.innerHTML = r === null ? 'Henüz oynamadın' : `Rekorun: <b>${r}</b> ${el.dataset.birim}`;
+        });
+    </script>
+    <footer class="alt-bilgi">
+        <span>© 2026 Alpoflex &amp; Yako</span>
+        <nav aria-label="Alt menü">
+            <a href="/oyunlar">Oyunlar</a>
+            <a href="/hakkinda">Hakkında</a>
+            <a href="/iletisim">İletişim</a>
+            <a href="/gizlilik">Gizlilik ve Çerezler</a>
+        </nav>
+    </footer>
+</body>
+</html>
